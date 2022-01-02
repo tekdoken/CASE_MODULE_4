@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
 @Service
-public class ClazzImplService implements IClazzService {
+public class ClazzService implements IClazzService {
     @Autowired
     private ClazzRepository clazzRepository;
 
@@ -19,12 +20,12 @@ public class ClazzImplService implements IClazzService {
 
     @Override
     public Optional<Clazz> findById(Long id) {
-        return Optional.empty();
+        return clazzRepository.findById(id);
     }
 
     @Override
-    public Optional<Clazz> save(Clazz clazz) {
-clazzRepository.save(clazz);
+    public Clazz save(Clazz clazz) {
+        return clazzRepository.save(clazz);
     }
 
     @Override
