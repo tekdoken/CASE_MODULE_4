@@ -18,6 +18,28 @@ public class Teacher {
     @OneToOne
     private User user;
 
+    public Teacher(Long id, Set<Clazz> classes, User user) {
+        this.id = id;
+        this.classes = classes;
+        this.user = user;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Teacher() {
     }
 
