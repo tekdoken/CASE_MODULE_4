@@ -5,6 +5,4 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface IClazzService extends IGeneralService <Clazz>{
-    Page<Clazz> findAll(Pageable pageable);
-
 }
