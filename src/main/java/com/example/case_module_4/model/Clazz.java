@@ -13,8 +13,23 @@ public class Clazz {
 
     private String name;
 
+    private Integer grade;
+
     @ManyToMany
     private Set<Teacher> teachers = new HashSet<>();
+
+    public Clazz(Long id, String name, Integer grade, Set<Teacher> teachers) {
+        this.id = id;
+        this.name = name;
+        this.grade = grade;
+        this.teachers = teachers;
+    }
+
+    public Clazz(String name, Integer grade, Set<Teacher> teachers) {
+        this.name = name;
+        this.grade = grade;
+        this.teachers = teachers;
+    }
 
     public Long getId() {
         return id;
@@ -40,12 +55,15 @@ public class Clazz {
         this.teachers = teachers;
     }
 
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
+    }
+
     public Clazz() {
     }
 
-    public Clazz(Long id, String name, Set<Teacher> teachers) {
-        this.id = id;
-        this.name = name;
-        this.teachers = teachers;
-    }
 }
