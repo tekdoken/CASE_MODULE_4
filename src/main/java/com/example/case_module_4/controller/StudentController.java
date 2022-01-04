@@ -1,6 +1,7 @@
 package com.example.case_module_4.controller;
 
 import com.example.case_module_4.model.Student;
+import com.example.case_module_4.service.IParentService;
 import com.example.case_module_4.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,12 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
     @Autowired
     private IStudentService studentService;
+    @Autowired
+    private IParentService iParentService;
 
     @GetMapping("")
     public ResponseEntity<Iterable<Student>> findAll() {
@@ -26,7 +30,7 @@ public class StudentController {
 
     @PostMapping("")
     public ResponseEntity<Student> add(Student student) {
-        return new ResponseEntity<>( studentService.save(student), HttpStatus.OK);
+        return new ResponseEntity<>(studentService.save(student), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -38,5 +42,10 @@ public class StudentController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Student>> findOne(@PathVariable Long id) {
         return new ResponseEntity<>(studentService.findById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/findAllByParent/{id}")
+    public ResponseEntity<Iterable<Student>> findAllStudentByParent(@PathVariable Long id) {
+        return new ResponseEntity<>(studentService.findAllByParent(iParentService.findById(id).get()), HttpStatus.OK);
     }
 }
