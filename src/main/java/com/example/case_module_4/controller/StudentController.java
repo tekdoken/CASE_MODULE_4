@@ -16,23 +16,17 @@ public class StudentController {
     @Autowired
     private IStudentService studentService;
 
-    //    Iterable<House> houses = houseService.findAll();
-//        if (houses == null) {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//        return new ResponseEntity<>(houses, HttpStatus.OK);
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<Iterable<Student>> findAll() {
-        Iterable<Student> students = studentService.findAll();
-        if (students == null) {
+        if (studentService.findAll() == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(students, HttpStatus.OK);
+        return new ResponseEntity<>(studentService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping("")
-    public ResponseEntity<Student> add(@RequestBody Student student) {
-        return new ResponseEntity<>(studentService.save(student), HttpStatus.OK);
+    public ResponseEntity<Student> add(Student student) {
+        return new ResponseEntity<>( studentService.save(student), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

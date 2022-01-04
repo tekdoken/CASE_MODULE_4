@@ -18,8 +18,10 @@ public class ClazzController {
     IClazzService clazzImplService;
     @GetMapping("")
     public ResponseEntity<Iterable<Clazz>> findAll(){
-        Iterable<Clazz> clazzIterable= clazzImplService.findAll();
-        return new ResponseEntity<>(clazzIterable, HttpStatus.OK);
+        if (clazzImplService.findAll() == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(clazzImplService.findAll(), HttpStatus.OK);
     }
     @PostMapping("")
     public ResponseEntity<Clazz> create(@RequestBody Clazz clazz){
