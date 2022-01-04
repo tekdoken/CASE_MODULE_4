@@ -17,8 +17,10 @@ public class TeacherController {
     ITeacherService teacherService;
     @GetMapping("")
     public ResponseEntity<Iterable<Teacher>> findAll(){
-        Iterable<Teacher> teacherIterable= teacherService.findAll();
-        return new ResponseEntity<>(teacherIterable, HttpStatus.OK);
+        if (teacherService.findAll() == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(teacherService.findAll(), HttpStatus.OK);
     }
     @PostMapping("")
     public ResponseEntity<Teacher> create(@RequestBody Teacher teacher){

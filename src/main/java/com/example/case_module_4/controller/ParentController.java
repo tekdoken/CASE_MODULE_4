@@ -19,6 +19,9 @@ public class ParentController {
 
     @GetMapping("")
     public ResponseEntity<Iterable<Parent>> findAll() {
+        if (iParentService.findAll() == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(iParentService.findAll(), HttpStatus.OK);
     }
 
