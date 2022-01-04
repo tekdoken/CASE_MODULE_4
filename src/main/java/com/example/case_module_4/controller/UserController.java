@@ -17,13 +17,14 @@ public class UserController {
     @Autowired
     IUserService iUserService;
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<Iterable<User>> findAll() {
         return new ResponseEntity<>(iUserService.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<User> add(@RequestBody User user) {
+        System.out.println("abc vao controller");
         return new ResponseEntity<>(iUserService.save(user), HttpStatus.OK);
     }
 
