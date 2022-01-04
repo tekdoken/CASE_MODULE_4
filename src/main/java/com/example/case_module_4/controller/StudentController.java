@@ -13,9 +13,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/students")
 public class StudentController {
+
     @Autowired
     private IStudentService studentService;
-
     //    Iterable<House> houses = houseService.findAll();
 //        if (houses == null) {
 //            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
