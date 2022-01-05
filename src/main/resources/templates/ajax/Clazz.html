@@ -18,7 +18,7 @@
                                 type: "Get",
                                 url: "http://localhost:8080/api/users",
                                 success: function (users) {
-                                    console.log(users)
+
                                     displayClazz(clazz,teachers,users)
 
                                 }
@@ -30,20 +30,23 @@
                 }
             })
             function displayClazz(clazz,teachers,users){
+                console.log(teachers)
                 let res  =""
-                for (let i = 0; i < clazz.length; i++) {
-                    for (let j = 0; j < teachers; j++) {
-                        for (let k = 0; k < users; k++) {
-                            if (teachers[j].id == clazz[i].teachers_id && parent[p].user.id == user[j].id){
+                 for (let i = 0; i < clazz.length; i++) {
+                     for (let j = 0; j < teachers.length; j++) {
+                         for (let k = 0; k < users.length; k++) {
+                             if (teachers[j].user.id == users[k].id && clazz[i].id == teachers[j].id) {
+                                 console.log(users)
+                                 res += clazz[i].name+users[k].fullName + users[k].avatar+"<br>"
+                             }
+                         }
 
-                            }
-                        }
-
-                    }
-                    res+= clazz[i].name+"<br>"
-                }
+                     }
+                 }
                 document.getElementById("display").innerHTML = res;
-            }
+                }
+
+
 
         }
         </script>
