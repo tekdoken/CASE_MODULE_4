@@ -20,7 +20,7 @@ public class Student {
     @ManyToOne
     private Parent parent;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade=CascadeType.ALL)
     private User user;
 
     public Student() {

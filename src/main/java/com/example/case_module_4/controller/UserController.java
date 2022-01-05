@@ -46,4 +46,5 @@ public class UserController {
     public ResponseEntity<Optional<User>> findUserByUsername(@PathVariable String username){
         return new ResponseEntity<>(iUserService.findByUsername(username),HttpStatus.OK);
     }
+
 }
