@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+function showList() {
+$.ajax({
+type: "Get",
+url: "http://localhost:8080/api/clazzs",
+success: function (blogs) {
+console.log(blogs)
+let html = "";
+    for (let i = 0; i < blogs.length; i++) {
+    html += `<div class="col-4 p-3 ">
+        <div class="card align-items-center" style="width: 18rem;">
+            <img height="315" src="https://nld.mediacdn.vn/2014/me4-12509.jpg" class="card-img-top" alt="...">
+
+            <a class="card-text" onclick="findOneSt(${blogs[i].id})" > ${blogs[i].title}</a>
+
+        </div></div>`
+    }
+    html += `</div>`;
+document.getElementById('content').innerHTML = html;
+},
+error: function (error) {
+alert("lỗi b ưi")
+}
+})
+}
+</body>
+</html>

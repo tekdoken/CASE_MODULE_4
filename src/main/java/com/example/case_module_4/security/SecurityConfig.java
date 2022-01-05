@@ -17,10 +17,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -68,41 +71,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CustomAccessDeniedHandler customAccessDeniedHandler() {
         return new CustomAccessDeniedHandler();
     }
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().ignoringAntMatchers("/**");
-//        http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
-//        http.authorizeRequests()
-////                .antMatchers("/login","login-google",
-////                        "/register","/error").permitAll()
-////                .antMatchers(HttpMethod.PUT,"/students/{id}").access(" hasRole('ROLE_ADMIN')")
-////                .antMatchers(HttpMethod.POST, "/students").access("hasRole('ROLE_ADMIN')")
-////                .antMatchers("/**").access("hasRole('ROLE_USER')")
-//                .antMatchers("/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and().csrf().disable()
-//                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
-//        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
-//        http.sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.cors();
-//    }
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        ExceptionHandlingConfigurer<HttpSecurity> httpSecurityExceptionHandlingConfigurer = http.authorizeRequests()
-//                .antMatchers("/", "/login", "/oauth/**").permitAll()
+        http.csrf().ignoringAntMatchers("/**");
+        http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
+        http.authorizeRequests()
+//                .antMatchers("/login","login-google",
+//                        "/register","/error").permitAll()
+//                .antMatchers(HttpMethod.PUT,"/students/{id}").access(" hasRole('ROLE_ADMIN')")
+//                .antMatchers(HttpMethod.POST, "/students").access("hasRole('ROLE_ADMIN')")
+//                .antMatchers("/**").access("hasRole('ROLE_USER')")
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin().permitAll()
-                .loginPage("/login")
-                .usernameParameter("email")
-                .passwordParameter("pass")
-                .defaultSuccessUrl("/list")
-                .and()
+                .and().csrf().disable()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
+        http.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.cors();
+    }
+
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        ExceptionHandlingConfigurer<HttpSecurity> httpSecurityExceptionHandlingConfigurer = http.authorizeRequests()
+////                .antMatchers("/", "/login", "/oauth/**").permitAll()
+//                .antMatchers("/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin().permitAll()
+//                .loginPage("/login")
+//                .usernameParameter("email")
+//                .passwordParameter("pass")
+//                .defaultSuccessUrl("/list")
+//                .and()
 //                .oauth2Login()
 //                .loginPage("/login")
 //                .userInfoEndpoint()
@@ -135,10 +138,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                })
 //                //.defaultSuccessUrl("/list")
 //                .and()
-                .logout().logoutSuccessUrl("/").permitAll()
-                .and()
-                .exceptionHandling().accessDeniedPage("/403");
-    }
+//                .logout().logoutSuccessUrl("/").permitAll()
+//                .and()
+//                .exceptionHandling().accessDeniedPage("/403");
+//    }
 //
 //    @Autowired
 //    private CustomOAuth2UserService oauthUserService;

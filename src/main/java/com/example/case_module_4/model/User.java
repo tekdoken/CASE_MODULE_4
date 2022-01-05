@@ -52,6 +52,15 @@ public class User {
         this.provider = provider;
         this.enabled = enabled;
     }
+    public User(String username, String password, String fullName,  String avatar, Provider provider, boolean enabled) {
+
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.avatar = avatar;
+        this.provider = provider;
+        this.enabled = enabled;
+    }
 
 
 
