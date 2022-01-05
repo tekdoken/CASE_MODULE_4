@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("api/clazzs")
+@RequestMapping("api/classes")
 public class ClazzController {
 @Autowired
     IClazzService clazzImplService;

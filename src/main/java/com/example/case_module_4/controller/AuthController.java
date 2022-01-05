@@ -1,11 +1,8 @@
 package com.example.case_module_4.controller;
 
 
-import com.example.case_module_4.model.JwtResponse;
-import com.example.case_module_4.model.Role;
-import com.example.case_module_4.model.User;
-import com.example.case_module_4.service.IRoleService;
-import com.example.case_module_4.service.IUserService;
+import com.example.case_module_4.model.*;
+import com.example.case_module_4.service.*;
 import com.example.case_module_4.service.impl.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,11 +20,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.sql.Date;
+import java.util.*;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
@@ -40,7 +37,16 @@ public class AuthController {
     private IUserService userService;
 
     @Autowired
+    private IParentService parentService;
+
+    @Autowired
+    private IStudentService studentService;
+
+    @Autowired
     private IRoleService roleService;
+
+    @Autowired
+    private IClazzService clazzService;
 
 
     @Autowired
@@ -60,7 +66,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> create( @RequestBody User user, BindingResult bindingResult) {
+    public ResponseEntity<User> create(@RequestBody User user, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -70,21 +76,68 @@ public class AuthController {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         }
-
-        if (user.getRoles() != null) {
-            Role role = roleService.findByName("ROLE_ADMIN");
-            Set<Role> roles = new HashSet<>();
-            roles.add(role);
-            user.setRoles(roles);
-        } else {
-            Role role1 = roleService.findByName("ROLE_USER");
-            Set<Role> roles1 = new HashSet<>();
-            roles1.add(role1);
-            user.setRoles(roles1);
-        }
-       user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        if (user.getRoles() != null) {
+//            Role role = roleService.findByName("ROLE_ADMIN");
+//            Set<Role> roles = new HashSet<>();
+//            roles.add(role);
+//            user.setRoles(roles);}
+////        } else {
+////            System.out.println("set role");
+////            Role role1 = roleService.findByName("ROLE_USER");
+////            Set<Role> roles1 = new HashSet<>();
+////            roles1.add(role1);
+////            user.setRoles(roles1);
+////        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/generateUsers")
+    ResponseEntity<Iterable<User>> generateUsers(@RequestParam String stName, Date stBirthday, Long clazzId, String prName, String prPhoneNo) {
+        System.out.println("abc vao day");
+        String[] stNameArray = stName.toLowerCase().split("");
+        String stUserName = "";
+        for (int i = 0; i < stNameArray.length; i++) {
+            stUserName += stNameArray[i];
+            System.out.println(stUserName);
+        }
+        User prUser;
+        Parent parent;
+
+        if (!userService.findByUsername(prPhoneNo).isPresent()) {
+            Role role = roleService.findByName("ROLE_PARENT");
+            Set<Role> rolesPr = new HashSet<>();
+            rolesPr.add(role);
+            prUser = new User(prPhoneNo, passwordEncoder.encode("123"), prName, rolesPr, " ", Provider.LOCAL, true);
+            parent = new Parent(prUser);
+            userService.save(prUser);
+            parentService.save(parent);
+        }
+        prUser = userService.findByUsername(prPhoneNo).get();
+        parent = parentService.findByUser(prUser).get();
+        while (userService.findByUsername(stUserName).isPresent()) {
+            int number = (int) Math.round(Math.random() * 1000);
+            stUserName += number;
+        }
+        Role role = roleService.findByName("ROLE_STUDENT");
+        Set<Role> rolesSt = new HashSet<>();
+        rolesSt.add(role);
+        User stUser = new User(stUserName, passwordEncoder.encode("123"), stName, rolesSt, " ", Provider.LOCAL, true);
+        Clazz clazz;
+        if(clazzService.findById(clazzId).isPresent()) {
+            clazz = clazzService.findById(clazzId).get();
+        }else{
+            clazz =  null;
+        }
+        Student student = new Student(stBirthday, clazz, parent,stUser);
+        userService.save(prUser);
+        parentService.save(parent);
+        studentService.save(student);
+        ArrayList<User> users = new ArrayList<>();
+        users.add(stUser);
+        users.add(prUser);
+        return new ResponseEntity<>(users,HttpStatus.CREATED);
     }
 
 
