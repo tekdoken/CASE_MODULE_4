@@ -28,8 +28,8 @@
                                                 type: "Get",
                                                 url: "http://localhost:8080/api/teachers",
                                                 success: function (teacher) {
-                                                    console.log(teacher)
-                                                    displayStudent(student, user, parent, clazzs,teacher)
+                                                    // console.log(teacher)
+                                                    displayStudent(student, user, parent, clazzs, teacher)
 
                                                 }
                                             })
@@ -45,7 +45,7 @@
             })
         }
 
-        function displayStudent(student, user, parent, clazzs,teachers) {
+        function displayStudent(student, user, parent, clazzs, teachers) {
             let res = ``
             for (let i = 0; i < student.length; i++) {
                 for (let j = 0; j < user.length; j++) {
@@ -70,15 +70,17 @@
                     if (clazzs[c].id == student[i].clazz.id) {
                         res += clazzs[c].name + " " +
                             clazzs[c].grade
-                        console.log(teachers[0].classes[0].id)
+                        // console.log(teachers[0].classes[0].id)
                         for (let j = 0; j < user.length; j++) {
-                        for (let t = 0; t < teachers.length; t++) {
-                            if (clazzs[c].id ==teachers[t].classes[0].id&&teachers[t].user.id==user[j].id){
-                                res += user[j].username + " " +
-                                    user[j].fullName + " " +
-                                    user[j].avatar + " "+ "<br>"
+                            for (let t = 0; t < teachers.length; t++) {
+                                if (clazzs[c].id == teachers[t].classes[0].id && teachers[t].user.id == user[j].id) {
+                                    console.log(teachers[t].classes[0].id)
+                                    res += user[j].username + " " +
+                                        user[j].fullName + " " +
+                                        user[j].avatar + " " + "<br>"
+                                }
                             }
-                        }}
+                        }
 
                     }
                 }
