@@ -42,7 +42,7 @@ public class UserController {
     public ResponseEntity<Optional<User>> findOne(@PathVariable Long id){
         return new ResponseEntity<>(iUserService.findById(id),HttpStatus.OK);
     }
-    @GetMapping("")
+    @GetMapping("/")
     public ResponseEntity<Optional<User>> findUserByUsername(@RequestParam String q){
         return new ResponseEntity<>(iUserService.findByUsername(q),HttpStatus.OK);
     }
