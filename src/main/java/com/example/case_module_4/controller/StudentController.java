@@ -1,6 +1,8 @@
 package com.example.case_module_4.controller;
 
+import com.example.case_module_4.model.Parent;
 import com.example.case_module_4.model.Student;
+import com.example.case_module_4.model.User;
 import com.example.case_module_4.service.IParentService;
 import com.example.case_module_4.service.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,4 +50,20 @@ public class StudentController {
     public ResponseEntity<Iterable<Student>> findAllStudentByParent(@PathVariable Long id) {
         return new ResponseEntity<>(studentService.findAllByParent(iParentService.findById(id).get()), HttpStatus.OK);
     }
+
+//    @PostMapping ("/addStAndPr")
+//    public ResponseEntity<Iterable<User>> createStAndPrUsers(@RequestParam String studentName, String parentPhoneNo){
+//        studentName = studentName.toLowerCase();
+//        String stUsername = "";
+////        for(int i=0;i<studentName.length();i++){
+////            if(!studentName.charAt(i).equals(" ")){
+////
+////            }
+////
+////        }
+//
+//
+//
+
+
 }
