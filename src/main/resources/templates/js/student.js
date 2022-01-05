@@ -18,7 +18,7 @@ function showFormAddStudent() {
         '                <div class="col-sm-12">\n' +
         '                    <div class="card">\n' +
         '                        <div class="card-body">\n' +
-        '                            <form>\n' +
+
         '                                <div class="row">\n' +
         '                                    <div class="col-12">\n' +
         '                                        <h5 class="form-title"><span>Student Information</span></h5>\n' +
@@ -65,10 +65,9 @@ function showFormAddStudent() {
                 '                                        </div>\n' +
                 '                                    </div>\n' +
                 '                                    <div class="col-12">\n' +
-                '                                        <button type="submit" class="btn btn-primary" onclick="addStAndPr()">Add student</button>\n' +
+                '                                        <button class="btn btn-primary" onclick="addStAndPr()">Add student</button>\n' +
                 '                                    </div>\n' +
                 '                                </div>\n' +
-                '                            </form>\n' +
                 '                        </div>' +
                 '                </div>\n' +
                 '            </div>';
@@ -79,36 +78,43 @@ function showFormAddStudent() {
 }
 
 function addStAndPr() {
+    console.log("vao ham add")
     let stName = $("#name").val();
-    let stBirthday = $("#birthday").val();
+    let stBirthdayArray = $("#birthday").val().split("/");
+    let stBirthday = stBirthdayArray[2]+"-"+stBirthdayArray[1]+"-"+stBirthdayArray[0];
+
     let clazz = $("#clazz").val();
     let prName = $("#prName").val();
     let prPhoneNo = $("#prPhoneNo").val();
+
     let stUserName = '';
-    for (let i = 0; i < name.length; i++) {
-        if (name.charAt(i) !== " ") {
-            stUserName += name.charAt(i);
+    for (let i = 0; i < stName.length; i++) {
+        if (stName.toLowerCase().charAt(i) !== " ") {
+            stUserName += stName.toLowerCase().charAt(i);
         }
     }
+    console.log(stUserName)
 
-    while (checkExistingUser(stUserName)) {
+    // while (checkExistingUser(stUserName)) {
         let random = Math.round(Math.random() * 1000);
-        stUserName += random;
-    }
+console.log(random);
+        stUserName += random.toString();
+    // }
     let stUser = {
         fullName: stName,
         username: stUserName,
         password: 123,
         roles: [
-            role = {
+            {
                 id: 2,
                 name: "ROLE_STUDENT"
             }
         ],
-        provider: LOCAL,
+        provider: "LOCAL",
         enabled: true,
-        avatar: ''
+        avatar: " "
     }
+    console.log(stUser);
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -117,23 +123,24 @@ function addStAndPr() {
         type: 'POST',
         url: 'http://localhost:8080/api/auth/register',
         data: JSON.stringify(stUser),
+
         error: function (error) {
             console.log(error)
         }
     })
-
-    if (!checkExistingUser(prPhoneNo)) {
+let checkUsername = checkExistingUser(prPhoneNo);
+    if (!checkUsername) {
         let prUser = {
             fullName: prName,
             username: prPhoneNo,
             password: 123,
             roles: [
-                role = {
+                {
                     id: 3,
                     name: "ROLE_PARENT"
                 }
             ],
-            provider: LOCAL,
+            provider: "LOCAL",
             enabled: true,
             avatar: ''
         }
@@ -149,21 +156,26 @@ function addStAndPr() {
                 console.log(error)
             }
         })
+        console.log(prUser)
     }
-    let prUser
+    let prNewUser
+
+
     $.ajax({
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
         type: 'GET',
-        url: 'http://localhost:8080/api/users/findByUserName/'+prPhoneNo,
+        url: `http://localhost:8080/api/users/findByUsername/${prPhoneNo}`,
         success: function (user) {
-            prUser = user;
+            console.log("tim user ph")
+            console.log(user)
+            prNewUser = user;
         }
     })
     let parent = {
-        user:  prUser,
+        user:  prNewUser,
     }
     $.ajax({
         headers: {
@@ -177,6 +189,8 @@ function addStAndPr() {
             console.log(error)
         }
     })
+    console.log("pr moi")
+    console.log(parent)
 
     $.ajax({
         headers: {
@@ -184,8 +198,10 @@ function addStAndPr() {
             'Content-Type': 'application/json',
         },
         type: 'GET',
-        url: 'http://localhost:8080/api/users/findByUserName/'+stUserName,
+        url: `http://localhost:8080/api/users/findByUsername/${stUserName}`,
         success: function (user) {
+            console.log("tim hs")
+            console.log(user)
             stUser = user;
         }
     })
@@ -197,6 +213,9 @@ function addStAndPr() {
         user: stUser,
         parent: parent,
     }
+    console.log("hsinh moi")
+    console.log(student)
+
 
     $.ajax({
         headers: {
@@ -213,12 +232,13 @@ function addStAndPr() {
 }
 
 function checkExistingUser(username) {
+    console.log("vao ham check")
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/users",
         success: function (users) {
-            for (let i = 0; i < users.length(); i++) {
-                if (users[i].username === username) {
+            for (let i = 0; i < users.length; i++) {
+                if (users[i].username == username) {
                     return true;
                 }
             }

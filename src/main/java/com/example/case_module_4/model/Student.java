@@ -20,7 +20,7 @@ public class Student {
     @ManyToOne
     private Parent parent;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private User user;
 
     public Student() {
@@ -29,6 +29,13 @@ public class Student {
     public Student(Date birthday, Clazz clazz) {
         this.birthday = birthday;
         this.clazz = clazz;
+    }
+
+    public Student(Date birthday, Clazz clazz, Parent parent, User user) {
+        this.birthday = birthday;
+        this.clazz = clazz;
+        this.parent = parent;
+        this.user = user;
     }
 
     public Long getId() {

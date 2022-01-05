@@ -27,6 +27,7 @@ public class ParentController {
 
     @PostMapping("")
     public ResponseEntity<Parent> add(@RequestBody Parent parent) {
+//        System.out.println("abc"+ parent);
         return new ResponseEntity<>(iParentService.save(parent), HttpStatus.OK);
     }
 
