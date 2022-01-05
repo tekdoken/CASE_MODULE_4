@@ -6,22 +6,39 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
         function showTeacher() {
-            $.ajax({
-                type: "Get",
-                url: "http://localhost:8080/api/teachers",
-                success: function (teacher) {
-                    console.log(teacher)
-                    displayTeacher(teacher)
+                    $.ajax({
+                        type: "Get",
+                        url: "http://localhost:8080/api/teachers",
+                        success: function (teachers) {
+                            $.ajax({
+                                type: "Get",
+                                url: "http://localhost:8080/api/users",
+                                success: function (users) {
 
-                }
-            })
-            function displayTeacher(teacher){
+                                    displayClazz(teachers,users)
+
+                                }
+                            })
+
+                        }
+                    })
+            function displayClazz(teachers,users){
+                console.log(teachers)
                 let res  =""
-                for (let i = 0; i < teacher.length; i++) {
-                    res+= teacher[i].id+"<br>"
-                }
+                    for (let j = 0; j < teachers.length; j++) {
+                        for (let k = 0; k < users.length; k++) {
+                            if (teachers[j].user.id == users[k].id ) {
+                                console.log(users)
+                                res += users[k].fullName + users[k].avatar+"<br>"
+                            }
+                        }
+
+                    }
+
                 document.getElementById("display").innerHTML = res;
             }
+
+
 
         }
     </script>
