@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function showTeacher() {
+            $.ajax({
+                type: "Get",
+                url: "http://localhost:8080/api/teachers",
+                success: function (teacher) {
+                    console.log(teacher)
+                    displayTeacher(teacher)
+
+                }
+            })
+            function displayTeacher(teacher){
+                let res  =""
+                for (let i = 0; i < teacher.length; i++) {
+                    res+= teacher[i].id+"<br>"
+                }
+                document.getElementById("display").innerHTML = res;
+            }
+
+        }
+    </script>
+</head>
+
+<body onload="showTeacher()">
+<div id="display"></div>
+
+</body>
+</html>
