@@ -10,14 +10,36 @@
                 type: "Get",
                 url: "http://localhost:8080/api/clazzs",
                 success: function (clazz) {
-                    console.log(clazz)
-                    displayClazz(clazz)
+                    $.ajax({
+                        type: "Get",
+                        url: "http://localhost:8080/api/teachers",
+                        success: function (teachers) {
+                            $.ajax({
+                                type: "Get",
+                                url: "http://localhost:8080/api/users",
+                                success: function (users) {
+                                    console.log(users)
+                                    displayClazz(clazz,teachers,users)
+
+                                }
+                            })
+
+                        }
+                    })
 
                 }
             })
-            function displayClazz(clazz){
+            function displayClazz(clazz,teachers,users){
                 let res  =""
                 for (let i = 0; i < clazz.length; i++) {
+                    for (let j = 0; j < teachers; j++) {
+                        for (let k = 0; k < users; k++) {
+                            if (teachers[j].id == clazz[i].teachers_id && parent[p].user.id == user[j].id){
+
+                            }
+                        }
+
+                    }
                     res+= clazz[i].name+"<br>"
                 }
                 document.getElementById("display").innerHTML = res;
