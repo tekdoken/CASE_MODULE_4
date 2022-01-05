@@ -18,9 +18,21 @@
             function displayParent(parent){
                 let res  =""
                 for (let i = 0; i < parent.length; i++) {
-                    res+= parent[i].id+"<br>"
+                    $.ajax({
+                        type: "GET",
+                        url: "http://localhost:8080/api/users",
+                        success: function (array) {
+                            for (let j = 0; j < array.length; j++) {
+                                if (array[j].id==parent[i].user.id){
+                                    res+=  array[j].username + " " +
+                                        array[j].fullName + " " +
+                                        array[j].avatar + " "
+                                        + "<br>"
+                                }
+                            }document.getElementById("display").innerHTML = res;
+                        }
+                    })
                 }
-                document.getElementById("display").innerHTML = res;
             }
 
         }

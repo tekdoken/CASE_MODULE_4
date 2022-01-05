@@ -11,16 +11,30 @@
                 url: "http://localhost:8080/api/students",
                 success: function (student) {
                     console.log(student)
-                     displayStudent(student)
+                    displayStudent(student)
 
                 }
             })
             function displayStudent(student){
-                let res  =""
+                let res  =``
                 for (let i = 0; i < student.length; i++) {
-                    res+= student[i].birthday+"<br>"
+                    $.ajax({
+                        type: "GET",
+                        url: "http://localhost:8080/api/users",
+                        success: function (array) {
+                            for (let j = 0; j < array.length; j++) {
+                                if (array[j].id==student[i].user.id){
+                                    res+= student[i].birthday+" "
+                                    res+=  array[j].username + " " +
+                                        array[j].fullName + " " +
+                                        array[j].avatar + " "
+                                        + "<br>"
+                                }
+                            }document.getElementById("display").innerHTML = res;
+                        }
+                    })
                 }
-                document.getElementById("display").innerHTML = res;
+
             }
 
         }
