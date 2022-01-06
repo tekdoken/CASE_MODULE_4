@@ -210,7 +210,7 @@ function showStudent(newStudent) {
                                             <span class="info-span">${stUsername}</span>
                                         </li>
                                         <li>
-                                            <span class="title-span">Account's Status : </span>
+                                            <span class="title-span">Account is : </span>
                                             <span class="info-span">${stEnabled}</span>
                                         </li>
                                         
