@@ -1,6 +1,7 @@
 package com.example.case_module_4.controller;
 
 import com.example.case_module_4.model.Clazz;
+import com.example.case_module_4.model.Teacher;
 import com.example.case_module_4.service.IClazzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @CrossOrigin("*")
@@ -29,7 +31,7 @@ public class ClazzController {
         return new ResponseEntity<>(clazz,HttpStatus.CREATED);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Clazz> update(@PathVariable Long id,@RequestBody Clazz clazz){
+    public ResponseEntity<Clazz> update(@PathVariable Long id, @RequestBody Clazz clazz){
         clazz.setId(id);
         clazzImplService.save(clazz);
         return new ResponseEntity<>(clazz,HttpStatus.OK);
