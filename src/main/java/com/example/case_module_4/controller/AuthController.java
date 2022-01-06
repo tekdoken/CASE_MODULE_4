@@ -52,6 +52,9 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ITeacherService teacherService;
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String username, String password) {
         Authentication authentication = authenticationManager.authenticate(
@@ -138,5 +141,19 @@ public class AuthController {
         return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
 
+    @PostMapping("/generateTeacherUser")
+    ResponseEntity<Teacher> generateTeacherUsers(@RequestParam String name, String phone){
+        Role role = roleService.findByName("ROLE_TEACHER");
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        User user = new User(phone,passwordEncoder.encode("123"),name,roles,"https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png",Provider.LOCAL,true);
+        Teacher teacher = new Teacher(user,true);
+        System.out.println(name +"abc"+ phone);
+        System.out.println(teacher);
+        System.out.println(user);
+        teacherService.save(teacher);
+        userService.save(user);
+        return new ResponseEntity<>(teacher, HttpStatus.CREATED);
+    }
 
 }

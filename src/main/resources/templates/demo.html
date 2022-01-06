@@ -6,54 +6,48 @@
 </head>
 <body>
 <div class="page-header">
-    <div class="row">
-        <div class="col-sm-12">
-            <h3 class="page-title">Class Details</h3>
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Add Teacher</h3>
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a onclick="showClassList()">Classes </a>
+                <li class="breadcrumb-item"><a
+                        onclick="showTeacherList()">Teachers</a>
                 </li>
-                <li class="breadcrumb-item active">Class Details</li>
+                <li class="breadcrumb-item active">Add Teacher</li>
             </ul>
         </div>
     </div>
 </div>
-<div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="about-info">
-                    <div class="media mt-3 d-flex">
 
-                            <ul>
-                                <li>
-                                    <span class="title-span">Class Id : </span>
-                                    <span class="info-span">${id}</span>
-                                </li>
-                                <li>
-                                    <span class="title-span">Class Name </span>
-                                    <span class="info-span">${name}</span>
-                                </li>
-                                <li>
-                                    <span class="title-span">Class Grade </span>
-                                    <span class="info-span">${grade}</span>
-                                </li>
-                                <li>
-                                    <span class="title-span">Teachers </span>
-                                    <span class="info-span">${}</span>
-                                </li>
-                                <li>
-                                    <span class="title-span">Numbers Of Students </span>
-                                    <span class="info-span"></span>
-                                </li>
-                                <li>
-                                    <span class="title-span">Status </span>
-                                    <span class="info-span"></span>
-                                </li>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <form>
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="form-title"><span>Teacher Information</span></h5>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" id="name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <div>
+                                    <input type="text" id="phone" class="form-control">
+                                </div>
+                            </div>
+                        </div>
 
-
-                            </ul>
+                        <div class="col-12">
+                            <button type="button" onclick="addNewTeacher()" class="btn btn-primary">Submit</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

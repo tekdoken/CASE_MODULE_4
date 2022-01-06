@@ -3,6 +3,7 @@ package com.example.case_module_4.controller;
 import com.example.case_module_4.model.Clazz;
 import com.example.case_module_4.model.Teacher;
 import com.example.case_module_4.service.IClazzService;
+import com.example.case_module_4.service.ITeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,8 @@ import java.util.Set;
 public class ClazzController {
 @Autowired
     IClazzService clazzImplService;
+@Autowired
+    ITeacherService teacherService;
 
     @GetMapping("")
     public ResponseEntity<Iterable<Clazz>> findAll(){
@@ -44,11 +47,17 @@ public class ClazzController {
         clazzImplService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Clazz> findOne(@PathVariable Long id){
         Optional<Clazz> clazz=clazzImplService.findById(id);
         return new ResponseEntity<>(clazz.get(),HttpStatus.OK);
     }
 
-
+    @GetMapping("/teachers/{id}")
+    public ResponseEntity<Iterable<Clazz>> findByTeachers(@PathVariable Long id){
+        Teacher teacher = teacherService.findById(id).get();
+        Iterable <Clazz> classes=clazzImplService.findAllByTeachersContains(teacher);
+        return new ResponseEntity<>(classes,HttpStatus.OK);
+    }
 }
