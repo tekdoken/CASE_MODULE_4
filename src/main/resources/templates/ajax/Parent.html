@@ -9,18 +9,47 @@
             $.ajax({
                 type: "Get",
                 url: "http://localhost:8080/api/parents",
-                success: function (parent) {
-                    console.log(parent)
-                    displayParent(parent)
+                success: function (parents) {
+                    $.ajax({
+                        type: "Get",
+                        url: "http://localhost:8080/api/students",
+                        success: function (students) {
+                            displayParent(parents, students)
+
+                        }
+                    })
 
                 }
             })
-            function displayParent(parent){
-                let res  =""
-                for (let i = 0; i < parent.length; i++) {
-                    res+= parent[i].id+"<br>"
+
+            function displayParent(parents, students) {
+                let res = ""
+                for (let i = 0; i < parents.length; i++) {
+                    $.ajax({
+                        type: "GET",
+                        url: "http://localhost:8080/api/users",
+                        success: function (array) {
+                            for (let j = 0; j < array.length; j++) {
+                                if (array[j].id == parents[i].user.id) {
+                                    res += array[j].username + " " +
+                                        array[j].fullName + " " +
+                                        array[j].avatar + " "+
+                                        "<br>"
+                                }
+                                for (let s = 0; s < students.length; s++) {
+                                    if (parents[i].id == students[s].parent.id && students[s].id == array[j].id) {
+                                        res += array[j].username + " " +
+                                            array[j].fullName + " " +
+                                            array[j].avatar + " "
+                                            + "<br>"
+                                    }
+                                }
+                            }
+
+                            document.getElementById("display").innerHTML = res;
+                        }
+                    })
                 }
-                document.getElementById("display").innerHTML = res;
             }
 
         }

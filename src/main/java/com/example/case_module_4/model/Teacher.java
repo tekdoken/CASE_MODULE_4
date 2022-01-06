@@ -15,7 +15,7 @@ public class Teacher {
     @ManyToMany
     private Set<Clazz> classes = new HashSet<>();
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private User user;
 
     public Teacher(Long id, Set<Clazz> classes, User user) {

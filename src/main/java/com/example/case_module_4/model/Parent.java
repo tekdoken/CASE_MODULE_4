@@ -9,7 +9,7 @@ public class Parent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     private User user;
 
     public Parent() {
@@ -17,6 +17,10 @@ public class Parent {
 
     public Parent(Long id, User user) {
         this.id = id;
+        this.user = user;
+    }
+
+    public Parent(User user) {
         this.user = user;
     }
 
@@ -34,5 +38,13 @@ public class Parent {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Parent{" +
+                "id=" + id +
+                ", user=" + user +
+                '}';
     }
 }

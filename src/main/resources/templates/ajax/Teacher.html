@@ -25,15 +25,23 @@
             function displayClazz(teachers,users){
                 console.log(teachers)
                 let res  =""
-                    for (let j = 0; j < teachers.length; j++) {
-                        for (let k = 0; k < users.length; k++) {
-                            if (teachers[j].user.id == users[k].id ) {
-                                console.log(users)
-                                res += users[k].fullName + users[k].avatar+"<br>"
-                            }
-                        }
 
-                    }
+                for (let i = 0; i < teacher.length; i++) {
+                    $.ajax({
+                        type: "GET",
+                        url: "http://localhost:8080/api/users",
+                        success: function (array) {
+                            for (let j = 0; j < array.length; j++) {
+                                if (array[j].id==teacher[i].user.id){
+                                    res+=  array[j].username + " " +
+                                        array[j].fullName + " " +
+                                        array[j].avatar + " "
+                                        + "<br>"
+                                }
+                            }document.getElementById("display").innerHTML = res;
+                        }
+                    })
+                }
 
                 document.getElementById("display").innerHTML = res;
             }
