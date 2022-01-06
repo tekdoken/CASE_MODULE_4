@@ -130,7 +130,7 @@ public class AuthController {
         }else{
             clazz =  null;
         }
-        Student student = new Student(stBirthday, clazz, parent,stUser);
+        Student student = new Student(stBirthday, clazz, parent,stUser,true);
         userService.save(prUser);
         parentService.save(parent);
         studentService.save(student);

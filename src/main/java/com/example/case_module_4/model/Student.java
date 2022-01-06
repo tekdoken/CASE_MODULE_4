@@ -1,9 +1,7 @@
 package com.example.case_module_4.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Table(name = "students")
@@ -23,19 +21,20 @@ public class Student {
     @OneToOne(cascade=CascadeType.ALL)
     private User user;
 
+    private boolean active;
+
+
     public Student() {
     }
 
-    public Student(Date birthday, Clazz clazz) {
-        this.birthday = birthday;
-        this.clazz = clazz;
-    }
 
-    public Student(Date birthday, Clazz clazz, Parent parent, User user) {
+
+    public Student(Date birthday, Clazz clazz, Parent parent, User user,boolean active) {
         this.birthday = birthday;
         this.clazz = clazz;
         this.parent = parent;
         this.user = user;
+        this.active = active;
     }
 
     public Long getId() {
@@ -76,5 +75,13 @@ public class Student {
 
     public void setParent(Parent parent) {
         this.parent = parent;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

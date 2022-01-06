@@ -15,20 +15,25 @@ public class Clazz {
 
     private Integer grade;
 
+    private boolean active;
+
     @ManyToMany
     private Set<Teacher> teachers = new HashSet<>();
 
-    public Clazz(Long id, String name, Integer grade, Set<Teacher> teachers) {
+    public Clazz(Long id, String name, Integer grade, Set<Teacher> teachers, boolean active) {
         this.id = id;
         this.name = name;
         this.grade = grade;
         this.teachers = teachers;
+        this.active = active;
+
     }
 
-    public Clazz(String name, Integer grade, Set<Teacher> teachers) {
+    public Clazz(String name, Integer grade, Set<Teacher> teachers, boolean active) {
         this.name = name;
         this.grade = grade;
         this.teachers = teachers;
+        this.active = active;
     }
 
     public Long getId() {
@@ -61,6 +66,14 @@ public class Clazz {
 
     public void setGrade(Integer grade) {
         this.grade = grade;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public Clazz() {
