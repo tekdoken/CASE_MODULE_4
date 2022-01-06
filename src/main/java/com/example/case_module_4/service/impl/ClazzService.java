@@ -1,6 +1,7 @@
 package com.example.case_module_4.service.impl;
 
 import com.example.case_module_4.model.Clazz;
+import com.example.case_module_4.model.Teacher;
 import com.example.case_module_4.repository.ClazzRepository;
 import com.example.case_module_4.service.IClazzService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,4 +35,8 @@ public class ClazzService implements IClazzService {
 
     }
 
+    @Override
+    public Iterable<Clazz> findAllByTeachersContains(Teacher teacher) {
+        return clazzRepository.findAllByTeachersContains(teacher);
+    }
 }

@@ -17,7 +17,7 @@ public class Clazz {
 
     private boolean active;
 
-    @ManyToMany
+    @ManyToMany(cascade= CascadeType.MERGE)
     private Set<Teacher> teachers = new HashSet<>();
 
     public Clazz(Long id, String name, Integer grade, Set<Teacher> teachers, boolean active) {

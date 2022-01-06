@@ -47,7 +47,7 @@ function showClasses(classes) {
         let clazz = classes[i]
         console.log(clazz)
         let id = clazz.id;
-        let name = clazz.name
+        let name = ""+clazz.name
         let grade = clazz.grade
         let status
         if (clazz.active) {
@@ -58,11 +58,7 @@ function showClasses(classes) {
 
         let str = `<tr>
                             <td>${id}</td>
-                            <td>
-                                <h2>
-                                    <a>${name}</a>
-                                </h2>
-                            </td>
+                            <td>${name}</td>
                             <td>${grade}</td><td>`
         let teachers = clazz.teachers
         for (let i = 0; i < teachers.length; i++) {
@@ -74,37 +70,121 @@ function showClasses(classes) {
             url: "http://localhost:8080/api/students/classes/" + id,
             success: function (students) {
                 let noOfStudents = students.length;
-                console.log(noOfStudents)
                 str += `</td><td>${noOfStudents}</td><td>${status}</td>
                             <td class="text-end">
                                 <div class="actions">
-                                    <a onclick="showFormEditClass(${id})" class="btn btn-sm bg-success-light me-2">
-                                        <i class="fas fa-pen"></i>Edit
+                                   
+                                    <a onclick="showFormEditClass(${id})" class="btn btn-sm bg-danger-light">
+                                       Edit
+                                    </a> 
+                                   
+                                    <a onclick="showClassDetails(${id})" class="btn btn-sm bg-danger-light">
+                                        Details
                                     </a>
-                                    <a onclick="deactivateClass(${id})" class="btn btn-sm bg-danger-light">
-                                        <i class="fas fa-trash"></i>Deactivate
-                                    </a></div>
+                                    <a onclick="showStudentsByClass(${id})" class="btn btn-sm bg-danger-light">
+                                        Student List
+                                    </a>
+                                    </div>
                             </td>
                         </tr>`
                 content.innerHTML += str;
-                // str+=`<td> hviiii </td>`
+
             }
         })
-        // content.innerHTML += ``
-
     }
-    // setTimeout(()=>{
-
-    // },2000)
-
-
 }
 
 function showClass(clazz) {
+    let status
+    if (clazz.active) {
+        status = "Active"
+    } else {
+        status = "Inactive"
+    }
+    let str = `<div class="page-header">
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="page-title">Class ${clazz.name} 's Information </h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a onclick="showClassList()">Classes </a>
+                </li>
+                <li class="breadcrumb-item active">Class Details</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="about-info">
+                    <div class="media mt-3 d-flex">
 
+                            <ul>
+                                <li><span class="title-span">Class Id : </span>
+                                    <span class="info-span">${clazz.id}</span>
+                                </li>
+                                <li>
+                                    <span class="title-span">Class Name </span>
+                                    <span class="info-span">${clazz.name}</span>
+                                </li>
+                                <li>
+                                    <span class="title-span">Class Grade </span>
+                                    <span class="info-span">${clazz.grade}</span>
+                                </li>
+                                <li>
+                                    <span class="title-span">Teachers </span>
+                                    <span class="info-span">`
+    let teachers = clazz.teachers
+    for (let i = 0; i < teachers.length; i++) {
+        let teacher = teachers[i]
+        str += `<a onclick ="showTeacherDetails(${teacher.id})">${teacher.user.fullName}</a><br>`
+    }
+    str += `</span>
+                                </li>
+                                <li>
+                                    <span class="title-span">Numbers Of Students </span>
+                                    <span class="info-span">`
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/students/classes/" + clazz.id,
+        success: function (students) {
+            let noOfStudents = students.length;
+            str += `${noOfStudents}</span>
+                                </li>
+                                <li>
+                                    <span class="title-span">Status </span>
+                                    <span class="info-span">${status}</span>
+                                </li>
+
+
+                            </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>`
+
+
+            document.getElementById("contentArea").innerHTML = str;
+
+
+        }
+    })
 }
 
-function showClassDetails() {
+
+function showClassDetails(id) {
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/classes/" + id,
+        success: function (clazz) {
+            showClass(clazz)
+        }
+    })
+
 
 }
 
@@ -118,16 +198,24 @@ function showClassList() {
     })
 }
 
-function addClass(){
+function addClass() {
     let name = $('#name').val();
     let grade = $('#grade').val();
-    let teachersId = $('#teachers').val();
+    let teacher0 = $('#teacher0').val();
+    let teacher1 = $('#teacher1').val();
+    let teacher2 = $('#teacher2').val();
     let clazz = {
         name: name,
         grade: grade,
         teachers: [
             {
-                id:teachersId
+                id: teacher0
+            },
+            {
+                id: teacher1
+            },
+            {
+                id: teacher2
             }
         ],
         active: true
@@ -162,8 +250,8 @@ function addClass(){
     })
 }
 
-function showFormAddClass(){
-    let str=`<div class="page-header">
+function showFormAddClass() {
+    let str = `<div class="page-header">
     <div class="row align-items-center">
         <div class="col">
             <h3 class="page-title">Add Class</h3>
@@ -198,17 +286,23 @@ function showFormAddClass(){
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label>Teachers</label>
-                                <select  class="form-control" id="teachers" name="teachers">`
+                                <label>Teachers</label>`
+
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/teachers/",
         success: function (teacherList) {
             console.log(teacherList)
-            for (let i = 0; i < teacherList.length; i++) {
-                str += `<option value="${teacherList[i].id}">${teacherList[i].user.fullName}</option>`
+            for (let j = 0; j < 3; j++) {
+                let id = "teacher" + j
+                str += `<select  class="form-control" id="${id}" name="teachers">`
+                for (let i = 0; i < teacherList.length; i++) {
+                    str += `<option value="${teacherList[i].id}">${teacherList[i].user.fullName}</option>`
+                }
+                str += `<option value=""></option>
+</select>`
             }
-            str+=`</select>
+            str += `
                             </div>
                         </div>
                         <div class="col-12">
@@ -222,9 +316,7 @@ function showFormAddClass(){
 </div>`
             document.getElementById("contentArea").innerHTML = str
         }
-        })
-
-
+    })
 
 
 }

@@ -12,7 +12,9 @@ import java.util.Optional;
 public interface StudentRepository extends JpaRepository<Student,Long> {
     Iterable<Student> findAllByParent(Parent parent);
     Iterable<Student> findAllByActive(Boolean active);
-    Iterable<Student> findAllByClazz(Clazz clazz);
+    Iterable<Student> findAllByClazzAndActive(Clazz clazz, boolean active);
+    Iterable<Student> findAllByClazzOrderByActive(Clazz clazz);
+//    Iterable<Student> orderByActive();
 
 
 }

@@ -105,6 +105,23 @@ function addStAndPr() {
     })
 }
 
+function showStudentsByClass(id) {
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/students/classes/" + id,
+        success: function (students) {
+            $.ajax({
+                type: "GET",
+                url: "http://localhost:8080/api/classes/" + id,
+                success: function (clazz) {
+                    let listName= "Students of Class "+clazz.name
+                    showStudents(listName,students);
+                }
+            })
+        }
+    })
+}
+
 function showStudentDetails(id) {
     $.ajax({
         type: "GET",
@@ -119,7 +136,7 @@ function showStudentDetails(id) {
 function showStudent(newStudent) {
     let stUser = newStudent.user;
     let stName = stUser.fullName;
-    let stBirthday = newStudent.birthday.slice(0,10);
+    let stBirthday = newStudent.birthday.slice(0, 10);
     let stUsername = stUser.username;
     let stAvatar = stUser.avatar;
     let stEnabled
@@ -244,7 +261,7 @@ function showActiveStudentList() {
         type: "GET",
         url: "http://localhost:8080/api/students/",
         success: function (students) {
-            showStudents(students)
+            showStudents("Active Student List",students)
             console.log(students);
         }
     })
@@ -255,17 +272,18 @@ function showInactiveStudentList() {
         type: "GET",
         url: "http://localhost:8080/api/students/inactiveStudents",
         success: function (students) {
-            showStudents(students)
+            showStudents("Inactive Student List",students)
             console.log(students);
         }
     })
 }
 
-function showStudents(studentList) {
+function showStudents(listName, studentList) {
+    let list =listName
     let str = `<div class="page-header">
     <div class="row align-items-center">
         <div class="col">
-            <h3 class="page-title">Students</h3>
+            <h3 class="page-title">${list}</h3>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
                 <li class="breadcrumb-item active">Students</li>
@@ -313,7 +331,7 @@ function showStudents(studentList) {
 
         let stName = stUser.fullName;
         let stId = st.id;
-        let stBirthday = st.birthday.slice(0,10);
+        let stBirthday = st.birthday.slice(0, 10);
         let stUsername = stUser.username;
         let prName = prUser.fullName;
         let prPhoneNo = prUser.username;
@@ -359,19 +377,17 @@ function showStudents(studentList) {
             </tr>`
         }
     }
-
-document.getElementById("contentArea").innerHTML = str;
-
+    document.getElementById("contentArea").innerHTML = str;
 }
 
-function activateStudent(id, studentList){
+function activateStudent(id, studentList) {
     console.log(studentList)
-    for (let i=0;i<studentList.length;i++){
-        if(studentList[i].id == id){
-            studentList.splice(i,1);
+    for (let i = 0; i < studentList.length; i++) {
+        if (studentList[i].id == id) {
+            studentList.splice(i, 1);
         }
     }
-    showStudents(studentList);
+    showStudents("Active Student List",studentList);
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/students/activate/" + id,
@@ -379,7 +395,8 @@ function activateStudent(id, studentList){
         }
     })
 }
-function inactivateStudent(id){
+
+function inactivateStudent(id) {
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/students/inactivate/" + id,

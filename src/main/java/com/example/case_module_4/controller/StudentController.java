@@ -23,11 +23,11 @@ public class StudentController {
     private IParentService iParentService;
 
     @GetMapping("")
-    public ResponseEntity<Iterable<Student>> findAllActive() {
-        if (studentService.findAllByActive(true) == null) {
+    public ResponseEntity<Iterable<Student>> findAll() {
+        if (studentService.findAll() == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(studentService.findAllByActive(true), HttpStatus.OK);
+        return new ResponseEntity<>(studentService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/inactiveStudents")

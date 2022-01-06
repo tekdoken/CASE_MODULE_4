@@ -11,8 +11,8 @@ public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-//    @ManyToMany
+//
+//    @ManyToMany(cascade= CascadeType.MERGE,fetch = FetchType.LAZY)
 //    private Set<Clazz> classes = new HashSet<>();
 
     @OneToOne(cascade = {CascadeType.ALL})
@@ -59,7 +59,7 @@ public class Teacher {
 
     public Teacher() {
     }
-//
+
 //    public Set<Clazz> getClasses() {
 //        return classes;
 //    }

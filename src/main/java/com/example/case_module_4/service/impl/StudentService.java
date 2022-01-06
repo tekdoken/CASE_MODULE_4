@@ -52,11 +52,11 @@ public class StudentService implements IStudentService {
 
     @Override
     public Iterable<Student> findAllByClazz(Clazz clazz) {
-        return studentRepository.findAllByClazz(clazz);
+        return studentRepository.findAllByClazzOrderByActive(clazz);
     }
     @Override
     public Iterable<Student> findAllByClazzId(Long id) {
         Clazz clazz = clazzRepository.findById(id).get();
-        return studentRepository.findAllByClazz(clazz);
+        return studentRepository.findAllByClazzOrderByActive(clazz);
     }
 }
