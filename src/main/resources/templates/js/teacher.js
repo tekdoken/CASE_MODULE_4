@@ -43,7 +43,6 @@ function showTeachers(teachers) {
     let content = document.getElementById("tbody");
 
 
-
     for (let i = 0; i < teachers.length; i++) {
         let tc = teachers[i]
         let tcUser = tc.user
@@ -109,8 +108,8 @@ function showTeacherList() {
 
 }
 
-function showFormAddTeacher(){
-    document.getElementById("contentArea").innerHTML= `<div class="page-header">
+function showFormAddTeacher() {
+    document.getElementById("contentArea").innerHTML = `<div class="page-header">
     <div class="row align-items-center">
         <div class="col">
             <h3 class="page-title">Add Teacher</h3>
@@ -160,7 +159,7 @@ function showFormAddTeacher(){
 
 }
 
-function addNewTeacher(){
+function addNewTeacher() {
     let form = document.getElementById("form")
     let data = new FormData(form)
     console.log(data);
@@ -183,5 +182,114 @@ function addNewTeacher(){
             console.log(error)
         }
     })
+
+}
+
+function showTeacherDetails(id) {
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/teachers/" + id,
+        success: function (teacher) {
+            showTeacher(teacher)
+        }
+    })
+
+}
+
+function showTeacher(teacher) {
+    let tcUser = teacher.user;
+    let tcName = tcUser.fullName;
+    let tcUsername = tcUser.username;
+    let tcAvatar = tcUser.avatar;
+    let tcEnabled
+    if (tcUser.enabled) {
+        tcEnabled = "enabled";
+    } else {
+        tcEnabled = "disabled";
+    }
+    let tcActive;
+    if (teacher.active) {
+        tcActive = "active";
+    } else {
+        tcActive = "inactive";
+    }
+    let str = `
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">Teacher Details</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a onclick="showTeacherList()">Teachers</a>
+                        </li>
+                        <li class="breadcrumb-item active">Teachers Details</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="about-info">
+                            <h4>Teacher's Information</h4>
+                            <div class="media mt-3 d-flex">
+                                <img src="${tcAvatar}" class="me-3 flex-shrink-0" alt="...">
+                                <div class="media-body flex-grow-1">
+                                    <ul>
+                                        <li>
+                                            <span class="title-span">Id : </span>
+                                            <span class="info-span">${teacher.id}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Full Name : </span>
+                                            <span class="info-span">${tcName}</span>
+                                        </li>
+                                        <li><span class="title-span">Class : </span>
+                                            <span class="info-span">
+`
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/classes/teachers/" + teacher.id,
+        success: function (classes) {
+            console.log(classes)
+            for (let i = 0; i < classes.length; i++) {
+                str += `<a onclick="showClassDetails(${classes[i].id})"> ${classes[i].name}</a><br>`
+            }
+            str += ` 
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Status : </span>
+                                            <span class="info-span">${tcActive}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Account's Username : </span>
+                                            <span class="info-span">${tcUsername}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Phone No : </span>
+                                            <span class="info-span">${tcUsername}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Account's Status : </span>
+                                            <span class="info-span">${tcEnabled}</span>
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                               
+                            </div>
+                             
+                    </div>
+                </div>
+            </div>
+        </div>
+  `
+            document.getElementById("contentArea").innerHTML = str;
+        }
+    })
+
 
 }
