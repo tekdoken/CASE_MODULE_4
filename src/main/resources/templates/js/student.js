@@ -18,7 +18,7 @@ function showFormAddStudent() {
         '                <div class="col-sm-12">\n' +
         '                    <div class="card">\n' +
         '                        <div class="card-body">\n' +
-        '<form enctype="multipart/form-data" id="form">'+
+        '<form enctype="multipart/form-data" id="form">' +
         '                                <div class="row">\n' +
 
         '                                    <div class="col-12">\n' +
@@ -70,7 +70,7 @@ function showFormAddStudent() {
                 '                                        <button type="button"  class="btn btn-primary" onclick="addStAndPr()">Add student</button>\n' +
                 '                                    </div>\n' +
                 '                                </div>\n' +
-                '</form >\n'+
+                '</form >\n' +
                 '                        </div>' +
                 '                </div>\n' +
                 '            </div>';
@@ -79,7 +79,8 @@ function showFormAddStudent() {
     })
 
 }
-function addStAndPr(){
+
+function addStAndPr() {
     let form = document.getElementById("form")
     let data = new FormData(form)
     console.log(data);
@@ -93,14 +94,242 @@ function addStAndPr(){
         contentType: false,
         cache: false,
         timeout: 1000000,
-        success: function (newUser){
-            console.log(newUser)
+        success: function (newStudent) {
+            console.log(newStudent)
+            showStudent(newStudent);
         },
 
         error: function (error) {
             console.log(error)
         }
     })
+}
 
+function showStudentDetails(id) {
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/students/" + id,
+        success: function (student) {
+            showStudent(student)
+        }
+    })
+
+}
+
+function showStudent(newStudent) {
+    let stUser = newStudent.user;
+    let stName = stUser.fullName;
+    let stBirthday = newStudent.birthday;
+    let stUsername = stUser.username;
+    let stAvatar = stUser.avatar;
+    let stEnabled
+    if (stUser.enabled) {
+        stEnabled = "enabled";
+    } else {
+        stEnabled = "disabled";
+    }
+    let stActive;
+    if (newStudent.active) {
+        stActive = "active";
+    } else {
+        stActive = "inactive";
+    }
+
+
+    let stClass = newStudent.clazz;
+
+    let prUser = newStudent.parent.user;
+    let prName = prUser.fullName;
+    let prUsername = prUser.username;
+    let prEnabled;
+    if (prUser.enabled) {
+        prEnabled = "enabled";
+    } else {
+        prEnabled = "disabled";
+    }
+
+    let str = `
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">Student Details</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a onclick="showStudentList()">Student</a>
+                        </li>
+                        <li class="breadcrumb-item active">Student Details</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="about-info">
+                            <h4>Student's Information</h4>
+                            <div class="media mt-3 d-flex">
+                                <img src="${stAvatar}" class="me-3 flex-shrink-0" alt="...">
+                                <div class="media-body flex-grow-1">
+                                    <ul>
+                                        <li>
+                                            <span class="title-span">Full Name : </span>
+                                            <span class="info-span">${stName}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Class : </span>
+                                            <span class="info-span">${stClass.name}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Birthday : </span>
+                                            <span class="info-span">${stBirthday}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Status : </span>
+                                            <span class="info-span">${stActive}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Account's Username : </span>
+                                            <span class="info-span">${stUsername}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Account's Status : </span>
+                                            <span class="info-span">${stEnabled}</span>
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                               
+                            </div>
+                             <div class="row mt-2">
+                                    <div class="col-md-12">
+                                        <h5>Parent's Information</h5>
+                                        <ul>
+                                        <li>
+                                            <span class="title-span">Name : </span>
+                                            <span class="info-span">${prName}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Phone Number : </span>
+                                            <span class="info-span">${prUsername}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Account's Username : </span>
+                                            <span class="info-span">${prUsername}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title-span">Account's Status : </span>
+                                            <span class="info-span">${prEnabled}</span>
+                                        </li>
+                                        
+                                    </ul>
+                                    </div>
+                                </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  `
+    console.log(str);
+    document.getElementById("contentArea").innerHTML = str;
+
+
+}
+
+function showStudentList(){
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/students/",
+        success: function (students) {
+            showStudents(students)
+            console.log(students);
+        }
+    })
+
+}
+
+function showStudents(studentList) {
+    let str = `<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Students</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item active">Students</li>
+            </ul>
+        </div>
+        <div class="col-auto text-end float-end ms-auto">
+            <a href="#" class="btn btn-outline-primary me-2"><i class="fas fa-download"></i> Download</a>
+            <a href="add-student.html" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card card-table">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover table-center mb-0 datatable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Class</th>
+                            <th>DOB</th>
+                            <th>Username</th>
+                            <th>Parent's Name</th>
+                            <th>Parent's Phone Number</th>
+
+                            <th class="text-end">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>`;
+    for (let i = 0; i < studentList.length; i++) {
+        let st = studentList[i];
+        let pr = st.parent;
+        let stUser = st.user;
+        let prUser = pr.user;
+
+        let stName = stUser.fullName;
+        let stId = st.id;
+        let stBirthday = st.birthday;
+        let stUsername = stUser.username;
+        let prName = prUser.fullName;
+        let prPhoneNo = prUser.username;
+        let stClass = st.clazz.name;
+        let stAvatar = stUser.avatar;
+        str += ` <tr>
+                            <td>${stId}</td>
+                            <td>
+                                <h2 class="table-avatar">
+                                    <a onclick="showStudentDetails(${stId})" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="${stAvatar}" alt="User Image"></a>
+                                    <a onclick="showStudentDetails(${stId})">${stName}</a>
+                                </h2>
+                            </td>
+                            <td>${stClass}</td>
+                            <td>${stBirthday}</td>
+                            <td>${stUsername}</td>
+                            <td>${prName}</td>
+                            <td>${prPhoneNo}</td>
+                            <td class="text-end">
+                                <div class="actions">
+                                    <a onclick="showFormEditStudent(${stId})" class="btn btn-sm bg-success-light me-2">
+                                        <i class="fas fa-pen"></i> Edit
+                                    </a>
+                                    <a onclick="inactivateStudent(${stId})" class="btn btn-sm bg-danger-light">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>`
+
+
+    }
+    document.getElementById("contentArea").innerHTML = str;
 
 }

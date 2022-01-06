@@ -94,13 +94,14 @@ public class AuthController {
     }
 
     @PostMapping("/generateUsers")
-    ResponseEntity<Iterable<User>> generateUsers(@RequestParam String stName, Date stBirthday, Long clazzId, String prName, String prPhoneNo) {
-        System.out.println("abc vao day");
+    ResponseEntity<Student> generateUsers(@RequestParam String stName, Date stBirthday, Long clazzId, String prName, String prPhoneNo) {
         String[] stNameArray = stName.toLowerCase().split("");
         String stUserName = "";
         for (int i = 0; i < stNameArray.length; i++) {
-            stUserName += stNameArray[i];
-            System.out.println(stUserName);
+            if (!stNameArray[i].equals(" ")) {
+                stUserName += stNameArray[i];
+            }
+            System.out.println("username"+ stUserName);
         }
         User prUser;
         Parent parent;
@@ -123,21 +124,18 @@ public class AuthController {
         Role role = roleService.findByName("ROLE_STUDENT");
         Set<Role> rolesSt = new HashSet<>();
         rolesSt.add(role);
-        User stUser = new User(stUserName, passwordEncoder.encode("123"), stName, rolesSt, " ", Provider.LOCAL, true);
+        User stUser = new User(stUserName, passwordEncoder.encode("123"), stName, rolesSt, "https://www.google.com/url?sa=i&url=http%3A%2F%2Felda.vn%2Fcart&psig=AOvVaw3RgzqE9Xu04bUHQY1T6U5h&ust=1641525211485000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMD9hZmUnPUCFQAAAAAdAAAAABAV", Provider.LOCAL, true);
         Clazz clazz;
-        if(clazzService.findById(clazzId).isPresent()) {
+        if (clazzService.findById(clazzId).isPresent()) {
             clazz = clazzService.findById(clazzId).get();
-        }else{
-            clazz =  null;
+        } else {
+            clazz = null;
         }
-        Student student = new Student(stBirthday, clazz, parent,stUser,true);
+        Student student = new Student(stBirthday, clazz, parent, stUser, true);
         userService.save(prUser);
         parentService.save(parent);
         studentService.save(student);
-        ArrayList<User> users = new ArrayList<>();
-        users.add(stUser);
-        users.add(prUser);
-        return new ResponseEntity<>(users,HttpStatus.CREATED);
+        return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
 
 
