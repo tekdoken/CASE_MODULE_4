@@ -79,4 +79,14 @@ public class Clazz {
     public Clazz() {
     }
 
+    @Override
+    public String toString() {
+        return "Clazz{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", grade=" + grade +
+                ", active=" + active +
+                ", teachers=" + teachers +
+                '}';
+    }
 }

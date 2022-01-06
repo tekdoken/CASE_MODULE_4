@@ -12,23 +12,23 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
-    private Set<Clazz> classes = new HashSet<>();
+//    @ManyToMany
+//    private Set<Clazz> classes = new HashSet<>();
 
     @OneToOne(cascade = {CascadeType.ALL})
     private User user;
 
     private boolean active;
 
-    public Teacher(Long id, Set<Clazz> classes, User user, boolean active) {
+    public Teacher(Long id, User user, boolean active) {
         this.id = id;
-        this.classes = classes;
+//        this.classes = classes;
         this.user = user;
         this.active = active;
     }
 
-    public Teacher(Set<Clazz> classes, User user, boolean status) {
-        this.classes = classes;
+    public Teacher(User user, boolean status) {
+//        this.classes = classes;
         this.user = user;
         this.active = status;
     }
@@ -59,12 +59,22 @@ public class Teacher {
 
     public Teacher() {
     }
+//
+//    public Set<Clazz> getClasses() {
+//        return classes;
+//    }
+//
+//    public void setClasses(Set<Clazz> classes) {
+//        this.classes = classes;
+//    }
 
-    public Set<Clazz> getClasses() {
-        return classes;
-    }
 
-    public void setClasses(Set<Clazz> classes) {
-        this.classes = classes;
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + id +
+                ", user=" + user +
+                ", active=" + active +
+                '}';
     }
 }

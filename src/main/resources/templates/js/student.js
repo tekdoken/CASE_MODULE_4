@@ -7,7 +7,7 @@ function showFormAddStudent() {
         '\n' +
         '                        <ul class="breadcrumb">\n' +
         '                            <li class="breadcrumb-item"><a\n' +
-        '                                    href="#">Students</a>\n' +
+        '                                    onclick="showActiveStudentList()">Students</a>\n' +
         '                            </li>\n' +
         '                            <li class="breadcrumb-item active">Add Students</li>\n' +
         '                        </ul>\n' +
@@ -41,7 +41,7 @@ function showFormAddStudent() {
         '                                    <div class="col-12 col-sm-6">\n' +
         '                                        <div class="form-group">\n' +
         '                                            <label>Class</label>\n' +
-        '                                            <select name="clazzId">'
+        '                                            <select class="form-control" name="clazzId">'
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/classes/",
@@ -119,7 +119,7 @@ function showStudentDetails(id) {
 function showStudent(newStudent) {
     let stUser = newStudent.user;
     let stName = stUser.fullName;
-    let stBirthday = newStudent.birthday;
+    let stBirthday = newStudent.birthday.slice(0,10);
     let stUsername = stUser.username;
     let stAvatar = stUser.avatar;
     let stEnabled
@@ -155,7 +155,7 @@ function showStudent(newStudent) {
                     <h3 class="page-title">Student Details</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a onclick="showStudentList()">Student</a>
+                            <a onclick="showActiveStudentList()">Student</a>
                         </li>
                         <li class="breadcrumb-item active">Student Details</li>
                     </ul>
@@ -234,13 +234,12 @@ function showStudent(newStudent) {
             </div>
         </div>
   `
-    console.log(str);
     document.getElementById("contentArea").innerHTML = str;
 
 
 }
 
-function showStudentList(){
+function showActiveStudentList() {
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/students/",
@@ -249,7 +248,17 @@ function showStudentList(){
             console.log(students);
         }
     })
+}
 
+function showInactiveStudentList() {
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/students/inactiveStudents",
+        success: function (students) {
+            showStudents(students)
+            console.log(students);
+        }
+    })
 }
 
 function showStudents(studentList) {
@@ -280,6 +289,7 @@ function showStudents(studentList) {
                             <th>ID</th>
                             <th>Name</th>
                             <th>Class</th>
+                            <th>Status</th>
                             <th>DOB</th>
                             <th>Username</th>
                             <th>Parent's Name</th>
@@ -294,10 +304,16 @@ function showStudents(studentList) {
         let pr = st.parent;
         let stUser = st.user;
         let prUser = pr.user;
+        let stActive;
+        if (st.active) {
+            stActive = "active";
+        } else {
+            stActive = "inactive";
+        }
 
         let stName = stUser.fullName;
         let stId = st.id;
-        let stBirthday = st.birthday;
+        let stBirthday = st.birthday.slice(0,10);
         let stUsername = stUser.username;
         let prName = prUser.fullName;
         let prPhoneNo = prUser.username;
@@ -312,24 +328,62 @@ function showStudents(studentList) {
                                 </h2>
                             </td>
                             <td>${stClass}</td>
+                            <td>${stActive}</td>
                             <td>${stBirthday}</td>
                             <td>${stUsername}</td>
                             <td>${prName}</td>
-                            <td>${prPhoneNo}</td>
-                            <td class="text-end">
-                                <div class="actions">
-                                    <a onclick="showFormEditStudent(${stId})" class="btn btn-sm bg-success-light me-2">
-                                        <i class="fas fa-pen"></i> Edit
-                                    </a>
-                                    <a onclick="inactivateStudent(${stId})" class="btn btn-sm bg-danger-light">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>`
-
-
+                            <td>${prPhoneNo}</td>`
+        if (st.active) {
+            str += `<td class="text-end">
+                    <div class="actions">
+                        <a onclick="showFormEditStudent(${stId})" class="btn btn-sm bg-success-light me-2">
+                            <i class="fas fa-pen"></i> Edit
+                        </a>
+                        <a onclick="inactivateStudent(${stId})" class="btn btn-sm bg-danger-light">
+                            <i class="fas fa-trash"></i> Inactivate
+                        </a>
+                    </div>
+                </td>
+            </tr>`
+        } else {
+            str += `<td class="text-end">
+                    <div class="actions">
+                        <a onclick="showFormEditStudent(${stId})" class="btn btn-sm bg-success-light me-2">
+                            <i class="fas fa-pen"></i> Edit
+                        </a>
+                        <a onclick="activateStudent(${stId},${studentList})" class="btn btn-sm bg-danger-light">
+                            <i class="fas fa-trash"></i> Activate
+                        </a>
+                    </div>
+                </td>
+            </tr>`
+        }
     }
-    document.getElementById("contentArea").innerHTML = str;
 
+document.getElementById("contentArea").innerHTML = str;
+
+}
+
+function activateStudent(id, studentList){
+    console.log(studentList)
+    for (let i=0;i<studentList.length;i++){
+        if(studentList[i].id == id){
+            studentList.splice(i,1);
+        }
+    }
+    showStudents(studentList);
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/students/activate/" + id,
+        success: function (student) {
+        }
+    })
+}
+function inactivateStudent(id){
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/students/inactivate/" + id,
+        success: function (student) {
+        }
+    })
 }

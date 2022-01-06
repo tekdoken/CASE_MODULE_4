@@ -23,11 +23,19 @@ public class StudentController {
     private IParentService iParentService;
 
     @GetMapping("")
-    public ResponseEntity<Iterable<Student>> findAll() {
-        if (studentService.findAll() == null) {
+    public ResponseEntity<Iterable<Student>> findAllActive() {
+        if (studentService.findAllByActive(true) == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(studentService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(studentService.findAllByActive(true), HttpStatus.OK);
+    }
+
+    @GetMapping("/inactiveStudents")
+    public ResponseEntity<Iterable<Student>> findAllInactive() {
+        if (studentService.findAllByActive(false) == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(studentService.findAllByActive(false), HttpStatus.OK);
     }
 
     @PostMapping("")
@@ -47,10 +55,29 @@ public class StudentController {
         return new ResponseEntity<>(studentService.findById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/findAllByParent/{id}")
+    @GetMapping("/parents/{id}")
     public ResponseEntity<Iterable<Student>> findAllStudentByParent(@PathVariable Long id) {
         return new ResponseEntity<>(studentService.findAllByParent(iParentService.findById(id).get()), HttpStatus.OK);
     }
+    @GetMapping("/classes/{id}")
+    public ResponseEntity<Iterable<Student>> findAllStudentByClass(@PathVariable Long id) {
+        return new ResponseEntity<>(studentService.findAllByClazzId(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/inactivate/{id}")
+    public ResponseEntity<Student> inactivateStudent(@PathVariable Long id){
+        Student student = studentService.findById(id).get();
+        student.setActive(false);
+        return new ResponseEntity<> (studentService.save(student),HttpStatus.OK);
+    }
+    @PostMapping("/activate/{id}")
+    public ResponseEntity<Student> activateStudent(@PathVariable Long id){
+        Student student = studentService.findById(id).get();
+        student.setActive(true);
+        return new ResponseEntity<> (studentService.save(student),HttpStatus.OK);
+    }
+
+
 
 //    @PostMapping ("/addStAndPr")
 //    public ResponseEntity<Iterable<User>> createStAndPrUsers(@RequestParam String studentName, String parentPhoneNo){

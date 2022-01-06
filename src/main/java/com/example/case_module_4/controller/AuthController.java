@@ -110,7 +110,7 @@ public class AuthController {
             Role role = roleService.findByName("ROLE_PARENT");
             Set<Role> rolesPr = new HashSet<>();
             rolesPr.add(role);
-            prUser = new User(prPhoneNo, passwordEncoder.encode("123"), prName, rolesPr, " ", Provider.LOCAL, true);
+            prUser = new User(prPhoneNo, passwordEncoder.encode("123"), prName, rolesPr, "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png", Provider.LOCAL, true);
             parent = new Parent(prUser);
             userService.save(prUser);
             parentService.save(parent);
@@ -124,7 +124,7 @@ public class AuthController {
         Role role = roleService.findByName("ROLE_STUDENT");
         Set<Role> rolesSt = new HashSet<>();
         rolesSt.add(role);
-        User stUser = new User(stUserName, passwordEncoder.encode("123"), stName, rolesSt, "https://www.google.com/url?sa=i&url=http%3A%2F%2Felda.vn%2Fcart&psig=AOvVaw3RgzqE9Xu04bUHQY1T6U5h&ust=1641525211485000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMD9hZmUnPUCFQAAAAAdAAAAABAV", Provider.LOCAL, true);
+        User stUser = new User(stUserName, passwordEncoder.encode("123"), stName, rolesSt, "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png", Provider.LOCAL, true);
         Clazz clazz;
         if (clazzService.findById(clazzId).isPresent()) {
             clazz = clazzService.findById(clazzId).get();

@@ -18,6 +18,7 @@ import java.util.Set;
 public class ClazzController {
 @Autowired
     IClazzService clazzImplService;
+
     @GetMapping("")
     public ResponseEntity<Iterable<Clazz>> findAll(){
         if (clazzImplService.findAll() == null) {
@@ -27,6 +28,8 @@ public class ClazzController {
     }
     @PostMapping("")
     public ResponseEntity<Clazz> create(@RequestBody Clazz clazz){
+        System.out.println("vao ham nay");
+        System.out.println(clazz);
         clazzImplService.save(clazz);
         return new ResponseEntity<>(clazz,HttpStatus.CREATED);
     }
