@@ -1792,6 +1792,7 @@ footer p {
 .sidebar-menu > ul > li:last-child {
     margin-bottom: 0;
 }
+
 .sidebar-menu .menu-arrow {
 	-webkit-transition: -webkit-transform 0.15s;
 	-o-transition: -o-transform 0.15s;
@@ -1813,9 +1814,9 @@ footer p {
 	line-height: 18px;
 	top: 14px;
 }
-.sidebar-menu .menu-arrow:before {
-	content: "\f105";
-}
+/*.sidebar-menu .menu-arrow:before {*/
+/*	content: "\f105";*/
+/*}*/
 .sidebar-menu li a.subdrop .menu-arrow {
 	-ms-transform: rotate(90deg);
 	-webkit-transform: rotate(90deg);
