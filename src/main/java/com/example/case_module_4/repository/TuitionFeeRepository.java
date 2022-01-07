@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TuitionFeeRepository extends JpaRepository <TuitionFee,Long> {
     Iterable<TuitionFee> findAllByStudent(Student student);
+    Iterable<TuitionFee> findAllByStudentAndPaid(Student student, boolean paid);
 }

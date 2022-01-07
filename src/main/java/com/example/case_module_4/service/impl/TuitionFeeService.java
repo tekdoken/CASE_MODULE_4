@@ -47,4 +47,11 @@ public class TuitionFeeService implements ITuitionFeeService {
         Optional <Student> studentOptional = studentRepository.findById(id);
         return studentOptional.map(student -> tuitionFeeRepository.findAllByStudent(student)).orElse(null);
     }
+
+    @Override
+    public Iterable<TuitionFee> findAllByStudentIdAndPaid(Long id, boolean paid) {
+        Optional <Student> studentOptional = studentRepository.findById(id);
+        return studentOptional.map(student -> tuitionFeeRepository.findAllByStudentAndPaid(student,paid)).orElse(null);
+    }
+
 }

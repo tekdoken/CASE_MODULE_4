@@ -7,7 +7,7 @@ function showFormAddStudent() {
         '\n' +
         '                        <ul class="breadcrumb">\n' +
         '                            <li class="breadcrumb-item"><a\n' +
-        '                                    onclick="showActiveStudentList()">Students</a>\n' +
+        '                                    onclick="showStudentList()">Students</a>\n' +
         '                            </li>\n' +
         '                            <li class="breadcrumb-item active">Add Students</li>\n' +
         '                        </ul>\n' +
@@ -172,7 +172,7 @@ function showStudent(newStudent) {
                     <h3 class="page-title">Student Details</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a onclick="showActiveStudentList()">Student</a>
+                            <a onclick="showStudentList()">Student</a>
                         </li>
                         <li class="breadcrumb-item active">Student Details</li>
                     </ul>
@@ -256,7 +256,7 @@ function showStudent(newStudent) {
 
 }
 
-function showActiveStudentList() {
+function showStudentList() {
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/students/",

@@ -16,8 +16,12 @@ public class TuitionFeeController {
     private ITuitionFeeService iTuitionFeeService;
     @Autowired
     private IStudentService iStudentService;
-    @GetMapping("/{id}")
-    public ResponseEntity<Iterable<TuitionFee>> findAllTuitionFeeByStudent(@PathVariable Long id){
-        return new ResponseEntity<>(iTuitionFeeService.findAllByStudent(iStudentService.findById(id).get()), HttpStatus.OK);
+    @GetMapping("/paid/{id}")
+    public ResponseEntity<Iterable<TuitionFee>> findByStudentPaid(@PathVariable Long id){
+        return new ResponseEntity<>(iTuitionFeeService.findAllByStudentIdAndPaid(id,true), HttpStatus.OK);
+    }
+    @GetMapping("/unpaid/{id}")
+    public ResponseEntity<Iterable<TuitionFee>> findByStudentUnpaid(@PathVariable Long id){
+        return new ResponseEntity<>(iTuitionFeeService.findAllByStudentIdAndPaid(id,false), HttpStatus.OK);
     }
 }
