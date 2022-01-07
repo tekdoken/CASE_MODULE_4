@@ -3,9 +3,6 @@ Author       : Dreamguys
 Template Name: Preskool - Bootstrap Admin Template
 Version      : 1.0
 */
-function menu(){
-
-}
 (function($) {
     "use strict";
 	
