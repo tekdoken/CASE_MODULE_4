@@ -260,7 +260,7 @@ function showStudent(newStudent) {
                         console.log(tuitionFee)
                         str += `<li>
                                             <span class="title-span">${tuitionFee.name} : </span>
-                                            <span class="info-span">${tuitionFee.fee}</span>
+                                            <span class="info-span">${tuitionFee.fee}$</span>
                                         </li>`
                     }
                     str += `</ul>
@@ -311,7 +311,7 @@ function showStudent(newStudent) {
 function showStudentList() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/students/",
+        url: "http://localhost:8080/api/students/active",
         success: function (students) {
             showStudents("Active Student List", students)
             console.log(students);
@@ -322,7 +322,7 @@ function showStudentList() {
 function showInactiveStudentList() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/api/students/inactiveStudents",
+        url: "http://localhost:8080/api/students/inactive",
         success: function (students) {
             showStudents("Inactive Student List", students)
             console.log(students);
@@ -341,9 +341,17 @@ function showStudents(listName, studentList) {
                 <li class="breadcrumb-item active">Students</li>
             </ul>
         </div>
-        <div class="col-auto text-end float-end ms-auto">
-            <a href="#" class="btn btn-outline-primary me-2"><i class="fas fa-download"></i> Download</a>
-            <a href="add-student.html" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+        <div class="col-auto text-end float-end ms-auto">`
+        if (listName == "Inactive Student List"){
+            str+=`<a onclick="showInactiveStudentList()" class="btn btn-outline-primary me-2">Show Active Students</a>`
+        }
+        if (listName == "Active Student List"){
+            str+=`<a onclick="showStudentList()" class="btn btn-outline-primary me-2"> Show Inactive Students</a>`
+        }
+
+            str+=`
+            
+            <a onclick="showFormAddStudent()" class="btn btn-primary"><i class="fas fa-plus"></i></a>
         </div>
     </div>
 </div>
@@ -421,7 +429,7 @@ function showStudents(listName, studentList) {
                         <a onclick="showFormEditStudent(${stId})" class="btn btn-sm bg-success-light me-2">
                             <i class="fas fa-pen"></i> Edit
                         </a>
-                        <a onclick="activateStudent(${stId},${studentList})" class="btn btn-sm bg-danger-light">
+                        <a onclick="activateStudent(${stId})" class="btn btn-sm bg-danger-light">
                             <i class="fas fa-trash"></i> Activate
                         </a>
                     </div>
@@ -432,18 +440,19 @@ function showStudents(listName, studentList) {
     document.getElementById("contentArea").innerHTML = str;
 }
 
-function activateStudent(id, studentList) {
-    console.log(studentList)
-    for (let i = 0; i < studentList.length; i++) {
-        if (studentList[i].id == id) {
-            studentList.splice(i, 1);
-        }
-    }
-    showStudents("Active Student List", studentList);
+function activateStudent(id) {
+    // console.log(studentList)
+    // for (let i = 0; i < studentList.length; i++) {
+    //     if (studentList[i].id == id) {
+    //         studentList.splice(i, 1);
+    //     }
+    // }
+    // showStudents("Active Student List", studentList);
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/students/activate/" + id,
         success: function (student) {
+            showInactiveStudentList()
         }
     })
 }
@@ -453,6 +462,8 @@ function inactivateStudent(id) {
         type: "POST",
         url: "http://localhost:8080/api/students/inactivate/" + id,
         success: function (student) {
+            showStudentList()
         }
+
     })
 }

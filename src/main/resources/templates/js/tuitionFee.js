@@ -68,7 +68,7 @@ function showUnpaidFees() {
                                 </h2></td>
                             <td>${student.clazz.name}</td>
                             <td>${tuitionFee.name}</td>
-                            <td>${tuitionFee.fee}</td>
+                            <td>${tuitionFee.fee}$</td>
                             <td >
                                 <a onclick="confirmPayment(${tuitionFee.id})" class="btn btn-sm bg-danger-light">
                              Confirm Payment 

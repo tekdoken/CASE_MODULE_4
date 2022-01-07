@@ -240,12 +240,13 @@ function addClass() {
         // contentType: false,
         // cache: false,
         // timeout: 1000000,
-        success: function (clazz) {
-            // console.log(clazz)
+        success: function (newClass) {
+            showClassList();
         },
 
         error: function (error) {
             console.log(error)
+            showClassList();
         }
     })
 }

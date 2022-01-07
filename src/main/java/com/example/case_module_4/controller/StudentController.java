@@ -30,12 +30,19 @@ public class StudentController {
         return new ResponseEntity<>(studentService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/inactiveStudents")
+    @GetMapping("/inactive")
     public ResponseEntity<Iterable<Student>> findAllInactive() {
         if (studentService.findAllByActive(false) == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(studentService.findAllByActive(false), HttpStatus.OK);
+    }
+    @GetMapping("/active")
+    public ResponseEntity<Iterable<Student>> findAllActive() {
+        if (studentService.findAllByActive(true) == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(studentService.findAllByActive(true), HttpStatus.OK);
     }
 
     @PostMapping("")
