@@ -114,8 +114,8 @@ function showStudentsByClass(id) {
                 type: "GET",
                 url: "http://localhost:8080/api/classes/" + id,
                 success: function (clazz) {
-                    let listName= "Students of Class "+clazz.name
-                    showStudents(listName,students);
+                    let listName = "Students of Class " + clazz.name
+                    showStudents(listName, students);
                 }
             })
         }
@@ -190,6 +190,10 @@ function showStudent(newStudent) {
                                 <div class="media-body flex-grow-1">
                                     <ul>
                                         <li>
+                                            <span class="title-span">Id: </span>
+                                            <span class="info-span">${newStudent.id}</span>
+                                        </li>
+                                        <li>
                                             <span class="title-span">Full Name : </span>
                                             <span class="info-span">${stName}</span>
                                         </li>
@@ -206,7 +210,7 @@ function showStudent(newStudent) {
                                             <span class="info-span">${stActive}</span>
                                         </li>
                                         <li>
-                                            <span class="title-span">Account's Username : </span>
+                                            <span class="title-span">Username : </span>
                                             <span class="info-span">${stUsername}</span>
                                         </li>
                                         <li>
@@ -220,6 +224,33 @@ function showStudent(newStudent) {
                             <div class="row mt-3">
                                
                             </div>
+                             
+                             <div class="row mt-2">
+                                    <div class="col-md-12">
+                                        <h5>Score List</h5>
+                                        <ul>
+                                        `
+    $.ajax({
+
+        type: "GET",
+        url: "http://localhost:8080/api/scores/students/" + newStudent.id,
+        success: function (scores) {
+
+            for (let i = 0; i < scores.length; i++) {
+                let score = scores[i]
+                str += `<li>
+                                            <span class="title-span">${score.name}: </span>
+                                            <span class="info-span">${score.score}</span>
+                                        </li>`
+            }
+            // $.ajax({
+            //
+            //     type: "GET",
+            //     url: "http://localhost:8080/api/tuitionFees/unpaid/" + newStudent.id,
+            //     success: function (scores) {} })
+            str += `</ul>
+                                    </div>
+                             </div>
                              <div class="row mt-2">
                                     <div class="col-md-12">
                                         <h5>Parent's Information</h5>
@@ -233,25 +264,32 @@ function showStudent(newStudent) {
                                             <span class="info-span">${prUsername}</span>
                                         </li>
                                         <li>
-                                            <span class="title-span">Account's Username : </span>
+                                            <span class="title-span">Username : </span>
                                             <span class="info-span">${prUsername}</span>
                                         </li>
                                         <li>
-                                            <span class="title-span">Account's Status : </span>
+                                            <span class="title-span">Account is : </span>
                                             <span class="info-span">${prEnabled}</span>
                                         </li>
                                         
                                     </ul>
                                     </div>
-                                </div>
+                             </div>
                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-  `
-    document.getElementById("contentArea").innerHTML = str;
+`
+            document.getElementById("contentArea").innerHTML = str;
+
+
+        }
+
+    })
+
+
 
 
 }
@@ -261,7 +299,7 @@ function showStudentList() {
         type: "GET",
         url: "http://localhost:8080/api/students/",
         success: function (students) {
-            showStudents("Active Student List",students)
+            showStudents("Active Student List", students)
             console.log(students);
         }
     })
@@ -272,14 +310,14 @@ function showInactiveStudentList() {
         type: "GET",
         url: "http://localhost:8080/api/students/inactiveStudents",
         success: function (students) {
-            showStudents("Inactive Student List",students)
+            showStudents("Inactive Student List", students)
             console.log(students);
         }
     })
 }
 
 function showStudents(listName, studentList) {
-    let list =listName
+    let list = listName
     let str = `<div class="page-header">
     <div class="row align-items-center">
         <div class="col">
@@ -387,7 +425,7 @@ function activateStudent(id, studentList) {
             studentList.splice(i, 1);
         }
     }
-    showStudents("Active Student List",studentList);
+    showStudents("Active Student List", studentList);
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/students/activate/" + id,

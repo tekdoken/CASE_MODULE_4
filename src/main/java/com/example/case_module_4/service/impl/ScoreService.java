@@ -46,4 +46,9 @@ public class ScoreService implements IScoreService {
         Optional <Student> studentOptional = studentRepository.findById(id);
         return studentOptional.map(student -> scoreRepository.findAllByStudent(student)).orElse(null);
     }
+
+    @Override
+    public Optional<Score> findByStudentAndName(Student student, String name) {
+        return scoreRepository.findAllByStudentAndName(student,name);
+    }
 }
