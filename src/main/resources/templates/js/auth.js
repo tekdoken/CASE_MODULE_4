@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-<div class="main-wrapper login-body">
+function showLoginForm(){
+    let str =`<div class="main-wrapper login-body">
     <div class="login-wrapper">
         <div class="container">
             <div class="loginbox">
@@ -18,12 +11,12 @@
                         <h1>Login</h1>
                         <p class="account-subtitle">Access to our dashboard</p>
 
-                        <form action="index.html">
+                        <form enctype="multipart/form-data" id="form">
                             <div class="form-group">
-                                <input class="form-control" type="text" placeholder="Username" id="username">
+                                <input class="form-control" type="text" placeholder="Username" id="username" name="username">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" type="password" placeholder="Password" id="password" >
+                                <input class="form-control" type="password" placeholder="Password" id="password" name="password">
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary btn-block" type="button" onclick="verifyLogin()">Login</button>
@@ -47,7 +40,33 @@
             </div>
         </div>
     </div>
-</div>
+</div>`
+    document.getElementById("window").innerHTML = str;
+}
 
-</body>
-</html>
+function verifyLogin(){
+
+    let form = document.getElementById("form")
+    let data = new FormData(form)
+    console.log(data);
+    $.ajax({
+        type: 'POST',
+        enctype: 'multipart/form-data',
+        url: 'http://localhost:8080/api/auth/login',
+        data: data,
+
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 1000000,
+        success: function (user) {
+            showUserHomePage()
+            console.log(user)
+            localStorage.setItem("user",JSON.stringify(user))
+        },
+
+        error: function (error) {
+            showLoginForm()
+        }
+    })
+}
