@@ -43,6 +43,36 @@ public class TuitionFee {
     public TuitionFee() {
     }
 
+    public TuitionFee(Long id, String name, Double fee, boolean paid, Student student) {
+        this.id = id;
+        this.name = name;
+        this.fee = fee;
+        this.paid = paid;
+        this.student = student;
+    }
+
+    public TuitionFee(String name, Double fee, boolean paid, Student student) {
+        this.name = name;
+        this.fee = fee;
+        this.paid = paid;
+        this.student = student;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Double getFee() {
         return fee;

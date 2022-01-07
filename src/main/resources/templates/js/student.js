@@ -243,15 +243,29 @@ function showStudent(newStudent) {
                                             <span class="info-span">${score.score}</span>
                                         </li>`
             }
-            // $.ajax({
-            //
-            //     type: "GET",
-            //     url: "http://localhost:8080/api/tuitionFees/unpaid/" + newStudent.id,
-            //     success: function (scores) {} })
             str += `</ul>
                                     </div>
                              </div>
                              <div class="row mt-2">
+                                    <div class="col-md-12">
+                                        <h5>Unpaid Tuition Fees</h5>
+                                        <ul>`
+            $.ajax({
+
+                type: "GET",
+                url: "http://localhost:8080/api/tuitionFees/unpaid/" + newStudent.id,
+                success: function (tuitionFees) {
+                    for (let i = 0; i < tuitionFees.length; i++) {
+                        let tuitionFee = tuitionFees[i]
+                        console.log(tuitionFee)
+                        str += `<li>
+                                            <span class="title-span">${tuitionFee.name} : </span>
+                                            <span class="info-span">${tuitionFee.fee}</span>
+                                        </li>`
+                    }
+                    str += `</ul>
+                                    </div>
+                             </div><div class="row mt-2">
                                     <div class="col-md-12">
                                         <h5>Parent's Information</h5>
                                         <ul>
@@ -280,16 +294,16 @@ function showStudent(newStudent) {
                     </div>
                 </div>
             </div>
-        </div>
-`
-            document.getElementById("contentArea").innerHTML = str;
+        </div>`
+                    document.getElementById("contentArea").innerHTML = str;
+
+                }
+            })
 
 
         }
 
     })
-
-
 
 
 }
