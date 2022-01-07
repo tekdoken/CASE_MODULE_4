@@ -63,10 +63,29 @@ function verifyLogin(){
             showUserHomePage()
             console.log(user)
             localStorage.setItem("user",JSON.stringify(user))
+            let currentUser = JSON.parse( localStorage.getItem("user"))
+            let token = user.accessToken
+            localStorage.setItem("token",token)
         },
 
         error: function (error) {
             showLoginForm()
         }
     })
+}
+function logOut() {
+
+    // $.ajax({
+    //     type: 'POST',
+    //     url: 'http://localhost:8080/logout',
+    //     headers: { "Authorization": 'Bearer ' + token },
+    //     success: function (){
+    //         localStorage.clear("user");
+    //         showHomePage();
+    //
+    //     }
+    // })
+    localStorage.clear("user");
+    localStorage.clear("token");
+    showHomePage();
 }

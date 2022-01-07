@@ -88,7 +88,7 @@ function showUserHomePage(){
                     <a class="dropdown-item"
                        href="https://preschool.dreamguystech.com/html-template/template/inbox.html">Inbox</a>
                     <a class="dropdown-item"
-                       href="https://preschool.dreamguystech.com/html-template/template/login.html">Logout</a>
+                       onclick="logOut()">Logout</a>
                 </div>
             </li>
 
