@@ -69,10 +69,11 @@ function showUnpaidFees() {
                             <td>${student.clazz.name}</td>
                             <td>${tuitionFee.name}</td>
                             <td>${tuitionFee.fee}</td>
-                            <td class="text-end">
-                                <a onclick="" class="btn btn-sm bg-success-light me-2">
-                            <i class="fas fa-pen"></i> Edit
+                            <td >
+                                <a onclick="confirmPayment(${tuitionFee.id})" class="btn btn-sm bg-danger-light">
+                             Confirm Payment 
                             </a>
+                            
                         
                             </td></tr>
                            
@@ -181,6 +182,17 @@ function addNewFee(){
 
         error: function (error) {
             console.log(error)
+        }
+    })
+
+}
+
+function confirmPayment(id){
+    $.ajax({
+        type: 'PUT',
+        url: 'http://localhost:8080/api/tuitionFees/pay/'+id,
+        success: function (tuitionFee){
+            showUnpaidFees();
         }
     })
 

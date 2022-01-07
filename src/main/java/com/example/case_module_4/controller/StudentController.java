@@ -45,7 +45,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Student> update(@PathVariable Long id, @RequestBody Student student) {
+    public ResponseEntity<Student> update(@PathVariable Long id, @RequestBody Student student ) {
         student.setId(id);
         return new ResponseEntity<>(studentService.save(student), HttpStatus.OK);
     }

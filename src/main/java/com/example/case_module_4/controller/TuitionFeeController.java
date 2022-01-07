@@ -46,4 +46,12 @@ public class TuitionFeeController {
 
     }
 
+    @PutMapping("/pay/{id}")
+    public ResponseEntity<TuitionFee> addNew(@PathVariable Long id){
+        TuitionFee tuitionFee = tuitionFeeService.findById(id).get();
+        tuitionFee.setPaid(true);
+        return new ResponseEntity<>(tuitionFeeService.save(tuitionFee),HttpStatus.OK);
+
+    }
+
 }
