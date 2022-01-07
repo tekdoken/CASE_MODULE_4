@@ -1,7 +1,7 @@
 function showUnpaidFees() {
 
     let table = document.getElementById("contentArea")
-    table.innerHTML = ''
+    table.innerHTML = ``
     table.innerHTML += `<div class="page-header">
                         <div class="row align-items-center">
                             <div class="col">
@@ -87,4 +87,101 @@ function showUnpaidFees() {
             }
         }
     })
+}
+
+function showFormAddFee(){
+    let str = `<div class="page-header">
+    <div class="row align-items-center">
+        <div class="col">
+            <h3 class="page-title">Add Tuition Fee</h3>
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a
+                        onclick="showUnpaidFees()">Tuition Fees</a>
+                </li>
+                <li class="breadcrumb-item active">Add Tuition Fee</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <form enctype="multipart/form-data" id="form">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="form-title"><span>Tuition Fee Information</span></h5>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Fee</label>
+                                <input type="number" name="fee" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label>Class</label>
+                                <div>
+                                    <select type="text" name="id" class="form-control">`
+        
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/classes/",
+        success: function (classList) {
+            console.log(classList)
+            for (let i = 0; i < classList.length; i++) {
+                str += `<option value="${classList[i].id}">${classList[i].name}</option>`
+            }
+            str += ` </select></div>\n` +
+                `                            </div>\n` +
+                `                        </div>\n` +
+                `                        \n` +
+                `                        <div class="col-12">\n` +
+                `                            <button type="button" onclick="addNewFee()" class="btn btn-primary">Submit</button>\n` +
+                `                        </div>\n` +
+                `                    </div>\n` +
+                `                </form>\n` +
+                `            </div>\n` +
+                `        </div>\n` +
+                `    </div>\n` +
+                `</div>`
+            document.getElementById("contentArea").innerHTML = str;
+        }
+
+    })
+                                  
+
+}
+
+function addNewFee(){
+    let form = document.getElementById("form")
+    let data = new FormData(form)
+    console.log(data);
+    $.ajax({
+        type: 'POST',
+        enctype: 'multipart/form-data',
+        url: 'http://localhost:8080/api/tuitionFees',
+        data: data,
+
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 1000000,
+        success: function (tuitionFees) {
+            console.log(tuitionFees)
+            showUnpaidFees();
+        },
+
+        error: function (error) {
+            console.log(error)
+        }
+    })
+
 }
