@@ -97,7 +97,7 @@ public class AuthController {
     }
 
     @PostMapping("/generateUsers")
-    ResponseEntity<Student> generateUsers(@RequestParam String stName, Date stBirthday, Long clazzId, String prName, String prPhoneNo) {
+    public ResponseEntity<Student> generateUsers(@RequestParam String stName, Date stBirthday, Long clazzId, String prName, String prPhoneNo) {
         String[] stNameArray = stName.toLowerCase().split("");
         String stUserName = "";
         for (int i = 0; i < stNameArray.length; i++) {
@@ -142,7 +142,7 @@ public class AuthController {
     }
 
     @PostMapping("/generateTeacherUser")
-    ResponseEntity<Teacher> generateTeacherUsers(@RequestParam String name, String phone){
+    public ResponseEntity<Teacher> generateTeacherUsers(@RequestParam String name, String phone){
         Role role = roleService.findByName("ROLE_TEACHER");
         Set<Role> roles = new HashSet<>();
         roles.add(role);
@@ -155,5 +155,7 @@ public class AuthController {
         userService.save(user);
         return new ResponseEntity<>(teacher, HttpStatus.CREATED);
     }
+
+
 
 }
