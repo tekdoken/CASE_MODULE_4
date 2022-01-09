@@ -34,7 +34,7 @@
 
 
 </head>
-<body onload="menu()">
+<body>
 
 <div class="main-wrapper">
 
@@ -291,6 +291,10 @@
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="https://use.fontawesome.com/02513b44b9.js"></script>
 <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-
+<script>
+    document.body.onload = function() {
+        menu()
+    };
+</script>
 </body>
 </html>
