@@ -31,7 +31,7 @@ function showLoginForm(){
 
                         <div class="social-login">
                             <span>Login with</span>
-                            <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a><a href="#" class="google"><i class="fab fa-google"></i></a>
+                            <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a><a onclick="showGoogleLogin()" class="google"><i class="fab fa-google"></i></a>
                         </div>
 
                         <div class="text-center dont-have">Don’t have an account? <a onclick="showRegisterForm()">Register</a></div>
@@ -88,4 +88,20 @@ function logOut() {
     localStorage.clear("user");
     localStorage.clear("token");
     showHomePage();
+}
+
+function showGoogleLogin(){
+    $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/oauth2/authorization/google',
+            success: function (user){
+                showUserHomePage()
+                console.log(user)
+                localStorage.setItem("user",JSON.stringify(user))
+                let currentUser = JSON.parse( localStorage.getItem("user"))
+                let token = user.accessToken
+                localStorage.setItem("token",token)
+            }
+
+    })
 }

@@ -1,6 +1,9 @@
 package com.example.case_module_4.security;
 
 
+import com.example.case_module_4.model.Provider;
+import com.example.case_module_4.oauth2.CustomOAuth2User;
+import com.example.case_module_4.oauth2.CustomOAuth2UserService;
 import com.example.case_module_4.security.jwt.CustomAccessDeniedHandler;
 import com.example.case_module_4.security.jwt.JwtAuthenticationFilter;
 import com.example.case_module_4.security.jwt.RestAuthenticationEntryPoint;
@@ -24,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -106,14 +110,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
-//        ExceptionHandlingConfigurer<HttpSecurity> httpSecurityExceptionHandlingConfigurer = http.authorizeRequests()
+//        http.csrf().ignoringAntMatchers("/**");
+//        http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
+//        http.authorizeRequests()
 ////                .antMatchers("/", "/login", "/oauth/**").permitAll()
 //                .antMatchers("/**").permitAll()
 //                .anyRequest().authenticated()
 //                .and()
 //                .formLogin().permitAll()
 //                .loginPage("/login")
-//                .usernameParameter("email")
+//                .usernameParameter("username")
 //                .passwordParameter("pass")
 //                .defaultSuccessUrl("/list")
 //                .and()
@@ -127,9 +133,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                    @Override
 //                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 //                                                        Authentication authentication) throws IOException, ServletException {
-//                        System.out.println("abc goi ham");
 //                        CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-//                        System.out.println("abc oath" + oauthUser);
 ////                        UserPrinciple userPrinciple =  (UserPrinciple) authentication.getPrincipal();
 ////                        String name = userPrinciple.getUsername();
 //
@@ -152,10 +156,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .logout().logoutSuccessUrl("/").permitAll()
 //                .and()
 //                .exceptionHandling().accessDeniedPage("/403");
+//        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
+//        http.sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        http.cors();
 //    }
-//
-//    @Autowired
-//    private CustomOAuth2UserService oauthUserService;
+
+    @Autowired
+    private CustomOAuth2UserService oauthUserService;
 
 
 

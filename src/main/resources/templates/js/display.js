@@ -1,4 +1,5 @@
 function showUserHomePage(){
+
     let str =`    <div class="header">
 
         <div class="header-left">
@@ -198,6 +199,18 @@ function showUserHomePage(){
 }
 
 function showHomePage(){
+    localStorage.setItem("user","{\n" +
+        "    \"id\": 124,\n" +
+        "    \"username\": \"hvi1619\",\n" +
+        "    \"name\": \"hvi1\",\n" +
+        "    \"roles\": [\n" +
+        "        {\n" +
+        "            \"authority\": \"ROLE_STUDENT\"\n" +
+        "        }\n" +
+        "    ],\n" +
+        "    \"accessToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJodmkxNjE5IiwiaWF0IjoxNjQxNjk0NTc0LCJleHAiOjg4MDQxNjk0NTc0fQ.6FZe7Q7Sy8vQc7WDw9sKPjY5mBPS-UUHUGy5AoPInsCpo4-bRXm2EBZXGxcwZ-U6bPFAyMlL9w58V8SGzjxigQ\",\n" +
+        "    \"tokenType\": \"Bearer\"\n" +
+        "}")
     let user = localStorage.getItem("user")
     if(user == null){
         showLoginForm()
