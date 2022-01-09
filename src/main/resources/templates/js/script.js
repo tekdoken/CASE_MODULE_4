@@ -3,7 +3,9 @@ Author       : Dreamguys
 Template Name: Preskool - Bootstrap Admin Template
 Version      : 1.0
 */
-
+function menu(){
+	document.getElementById("toggle_btn").click();
+}
 (function($) {
     "use strict";
 	
@@ -36,6 +38,9 @@ Version      : 1.0
 			}
 		});
 		$('#sidebar-menu ul li.submenu a.active').parents('li:last').children('a:first').addClass('active').trigger('click');
+		setTimeout(function() {
+			$("#sidebar-menu ul li.submenu a.active").trigger('click');
+		},1000);
 	}
 	
 	// Sidebar Initiate
