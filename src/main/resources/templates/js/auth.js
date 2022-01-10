@@ -60,12 +60,13 @@ function verifyLogin(){
         cache: false,
         timeout: 1000000,
         success: function (user) {
-            showUserHomePage()
+
             console.log(user)
             localStorage.setItem("user",JSON.stringify(user))
             let currentUser = JSON.parse( localStorage.getItem("user"))
-            let token = user.accessToken
+            let token = currentUser.accessToken
             localStorage.setItem("token",token)
+            showUserHomePage()
         },
 
         error: function (error) {

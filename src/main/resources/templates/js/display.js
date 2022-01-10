@@ -1,6 +1,11 @@
 function showUserHomePage(){
-
-    let str =`    <div class="header">
+    let currentUser = JSON.parse( localStorage.getItem("user"))
+    console.log(currentUser)
+    let role = currentUser.roles[0].authority
+    console.log(role);
+    let str
+    if(role == "ROLE_ADMIN"){
+        str =`    <div class="header">
 
         <div class="header-left">
             <a class="logo">
@@ -104,21 +109,12 @@ function showUserHomePage(){
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
                         <li class="menu-title">
-                            <span>Admin Menu</span>
+                            <span></span>
                         </li>
                         <li class="submenu">
-                            <a><i class="fas fa-users"></i></i> <span> Dashboard</span><span class="menu-arrow"><i
+                            <a class="subdrop" onclick="showMyAccount()"><i class="fas fa-users"></i></i> <span> My Account</span><span class="menu-arrow"><i
                                     class="bi bi-chevron-right"></i></span> </a>
-                            <ul>
-                                <li><a>Admin
-                                    Dashboard</a></li>
-                                <li>
-                                    <a>Teacher
-                                        Dashboard</a></li>
-                                <li>
-                                    <a>Student
-                                        Dashboard</a></li>
-                            </ul>
+                            
                         </li>
                         <li class="submenu">
                             <a class="active subdrop"><i class="fas fa-user-graduate"></i> <span> Students</span>
@@ -128,14 +124,14 @@ function showUserHomePage(){
                                     List</a></li>
                                 <li>
                                     <a onclick="showFormAddStudent()"
-                                       class="active">Student Add</a></li>
+                                       >Student Add</a></li>
                                 <li>
                                     <a onclick="showInactiveStudentList()"
-                                       class="active">Inactive Student List</a></li>
+                                       >Inactive Student List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a onclick="showTeacherList()"><i
+                            <a  class="subdrop" onclick="showTeacherList()"><i
                                     class="fas fa-chalkboard-teacher"></i> <span> Teachers</span><span
                                     class="menu-arrow"><i class="bi bi-chevron-right"></i></span></a>
                             <ul>
@@ -147,10 +143,10 @@ function showUserHomePage(){
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a onclick="showClassList()"><i
+                            <a onclick="showClassList()" class="subdrop"><i
                                     class="fas fa-building"></i> <span> Classes</span> <span class="menu-arrow"><i
                                     class="bi bi-chevron-right"></i></span></a>
-                            <ul>
+                            <ul >
                                 <li>
                                     <a onclick="showClassList()">Class
                                         List</a></li>
@@ -160,7 +156,7 @@ function showUserHomePage(){
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a><i
+                            <a class="subdrop" onclick="showUnpaidFees()"><i
                                     class="fas fa-book-reader"></i> <span> Tuition Fees</span> <span class="menu-arrow"><i
                                     class="bi bi-chevron-right"></i></span></a>
                             <ul>
@@ -195,22 +191,15 @@ function showUserHomePage(){
             <!--            END CONTENT -->
         </div>
     </div>`
+
+    }
+
+
     document.getElementById("window").innerHTML = str;
 }
 
 function showHomePage(){
-    localStorage.setItem("user","{\n" +
-        "    \"id\": 124,\n" +
-        "    \"username\": \"hvi1619\",\n" +
-        "    \"name\": \"hvi1\",\n" +
-        "    \"roles\": [\n" +
-        "        {\n" +
-        "            \"authority\": \"ROLE_STUDENT\"\n" +
-        "        }\n" +
-        "    ],\n" +
-        "    \"accessToken\": \"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJodmkxNjE5IiwiaWF0IjoxNjQxNjk0NTc0LCJleHAiOjg4MDQxNjk0NTc0fQ.6FZe7Q7Sy8vQc7WDw9sKPjY5mBPS-UUHUGy5AoPInsCpo4-bRXm2EBZXGxcwZ-U6bPFAyMlL9w58V8SGzjxigQ\",\n" +
-        "    \"tokenType\": \"Bearer\"\n" +
-        "}")
+
     let user = localStorage.getItem("user")
     if(user == null){
         showLoginForm()

@@ -2012,6 +2012,7 @@ footer p {
     transition: all 0.2s ease-in-out 0s;
     width: 320px;
     z-index: 1001;
+    overflow: scroll;
 }
 
 .sidebar.opened {
@@ -2142,7 +2143,7 @@ footer p {
 }
 
 .sidebar-menu ul ul {
-    display: none;
+    display: block;
 }
 
 .sidebar-menu ul ul ul a {
