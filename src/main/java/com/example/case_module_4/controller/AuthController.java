@@ -15,10 +15,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.*;
@@ -97,7 +100,14 @@ public class AuthController {
     }
 
     @PostMapping("/generateUsers")
-    ResponseEntity<Student> generateUsers(@RequestParam String stName, Date stBirthday, Long clazzId, String prName, String prPhoneNo) {
+    ResponseEntity<Student> generateUsers(@RequestParam String stName, Date stBirthday, Long clazzId, String prName, String prPhoneNo, MultipartFile file) {
+       String fileName=file.getOriginalFilename();
+        try {
+            FileCopyUtils.copy(file.getBytes(),
+                    new File("C:\\Users\\84336\\IdeaProjects\\CASE_MODULE_4\\src\\main\\resources\\templates\\avatar\\" + fileName));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         String[] stNameArray = stName.toLowerCase().split("");
         String stUserName = "";
         for (int i = 0; i < stNameArray.length; i++) {
@@ -129,6 +139,7 @@ public class AuthController {
         rolesSt.add(role);
         User stUser = new User(stUserName, passwordEncoder.encode("123"), stName, rolesSt, "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png", Provider.LOCAL, true);
         Clazz clazz;
+        stUser.setAvatar(fileName);
         if (clazzService.findById(clazzId).isPresent()) {
             clazz = clazzService.findById(clazzId).get();
         } else {

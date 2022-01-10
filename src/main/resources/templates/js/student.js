@@ -65,6 +65,12 @@ function showFormAddStudent() {
                 '                                            <input type="text" class="form-control" name="prPhoneNo">\n' +
                 '                                        </div>\n' +
                 '                                    </div>\n' +
+                '                                    <div class="col-12 col-sm-6">\n' +
+                '                                        <div class="form-group">\n' +
+                '                                            <label>Avatar</label>\n' +
+                '                                          <input type="file" name="file" />\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
 
                 '                                    <div class="col-12">\n' +
                 '                                        <button type="button"  class="btn btn-primary" onclick="addStAndPr()">Add student</button>\n' +
@@ -186,7 +192,7 @@ function showStudent(newStudent) {
                         <div class="about-info">
                             <h4>Student's Information</h4>
                             <div class="media mt-3 d-flex">
-                                <img src="${stAvatar}" class="me-3 flex-shrink-0" alt="...">
+                                <img src="avatar\\${stAvatar}" class="me-3 flex-shrink-0" alt="...">
                                 <div class="media-body flex-grow-1">
                                     <ul>
                                         <li>
@@ -393,7 +399,7 @@ function showStudents(listName, studentList) {
                             <td>${stId}</td>
                             <td>
                                 <h2 class="table-avatar">
-                                    <a onclick="showStudentDetails(${stId})" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="${stAvatar}" alt="User Image"></a>
+                                    <a onclick="showStudentDetails(${stId})" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="avatar\\${stAvatar}" alt="User Image"></a>
                                     <a onclick="showStudentDetails(${stId})">${stName}</a>
                                 </h2>
                             </td>
