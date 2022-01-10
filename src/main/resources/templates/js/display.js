@@ -39,18 +39,16 @@ function showUserHomePage(){
 
         <ul class="nav user-menu">
 
-
-
             <li class="nav-item dropdown has-arrow">
                 <a 
                    class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                    <span class="user-img"><img class="rounded-circle" src="${avatar}" width="31"
+                    <span class="user-img"><img class="rounded-circle" src="avatar\\${avatar}" width="31"
                                                 alt="${name}"></span>
                 </a>
                 <div class="dropdown-menu">
                     <div class="user-header">
                         <div class="avatar avatar-sm">
-                            <img src="${avatar}" alt="User Image" class="avatar-img rounded-circle">
+                            <img src="avatar\\${avatar}" alt="User Image" class="avatar-img rounded-circle">
                         </div>
                         <div class="user-text">
                             <h6>${name}</h6>
@@ -68,35 +66,33 @@ function showUserHomePage(){
         </ul>
 
     </div>
-
-
-    <div class="sidebar" id="sidebar">
-        <div>
-            <div>
+<div class="sidebar" id="sidebar"  >
+        <div >
+            <div >
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
                         <li class="menu-title">
-                            <span></span>
+                            <span>Main Menu</span>
                         </li>
                         
                         <li class="submenu">
-                            <a class="active subdrop"><i class="fas fa-user-graduate"></i> <span> Students</span>
+                            <a class="subdrop" onclick="showStudentList()" ><i class="fas fa-user-graduate"></i> <span>Students</span>
                                 <span class="menu-arrow"><i class="bi bi-chevron-right"></i></span></a>
-                            <ul style="display: block;">
-                                <li><a onclick="showStudentList()">Student
+                            <ul>
+<!--khi hien ra thi hien cac student co trang thai user la enabled-->
+                                <li><a  onclick="showStudentList()">Student
                                     List</a></li>
                                 <li>
                                     <a onclick="showFormAddStudent()"
-                                       >Student Add</a></li>
+                                      >Student Add</a></li>
                                 <li>
                                     <a onclick="showInactiveStudentList()"
                                        >Inactive Student List</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a  class="subdrop" onclick="showTeacherList()"><i
-                                    class="fas fa-chalkboard-teacher"></i> <span> Teachers</span><span
-                                    class="menu-arrow"><i class="bi bi-chevron-right"></i></span></a>
+                            <a class="subdrop" onclick="showTeacherList()"><i
+                                    class="fas fa-chalkboard-teacher"></i> <span> Teachers</span><span class="menu-arrow"><i class="bi bi-chevron-right"></i></span></a>
                             <ul>
                                 <li><a onclick="showTeacherList()">Teacher
                                     List</a></li>
@@ -106,10 +102,9 @@ function showUserHomePage(){
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a onclick="showClassList()" class="subdrop"><i
-                                    class="fas fa-building"></i> <span> Classes</span> <span class="menu-arrow"><i
-                                    class="bi bi-chevron-right"></i></span></a>
-                            <ul >
+                            <a class="subdrop" onclick="showClassList()"><i
+                                    class="fas fa-building"></i> <span> Classes</span> <span class="menu-arrow"><i class="bi bi-chevron-right"></i></span></a>
+                            <ul>
                                 <li>
                                     <a onclick="showClassList()">Class
                                         List</a></li>
@@ -120,19 +115,19 @@ function showUserHomePage(){
                         </li>
                         <li class="submenu">
                             <a class="subdrop" onclick="showUnpaidFees()"><i
-                                    class="fas fa-book-reader"></i> <span> Tuition Fees</span> <span class="menu-arrow"><i
-                                    class="bi bi-chevron-right"></i></span></a>
+                                    class="fas fa-book-reader"></i> <span> Tuition Fees</span> <span class="menu-arrow"
+                                    ><i class="bi bi-chevron-right"></i></span></a>
                             <ul>
                                 <li><a onclick="showUnpaidFees()">Unpaid Tuition Fees
-                                </a></li>
+                                    </a></li>
                                 <li>
                                     <a onclick="showFormAddFee() ">Add Tuition Fee </a></li>
                                 <li>
                                     <a onclick="showFormUpdateFee()">Update Tuition Fee
-                                    </a></li>
+                                        </a></li>
                             </ul>
                         </li>
-
+             
                     </ul>
                 </div>
             </div>
@@ -182,5 +177,9 @@ function showHomePage(){
         showLoginForm()
     }else{
         showUserHomePage()
+        menu()
+    }
+    function menu(){
+        document.getElementById("toggle_btn").click();
     }
 }

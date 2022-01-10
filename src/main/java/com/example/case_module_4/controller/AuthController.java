@@ -15,10 +15,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.*;
@@ -97,14 +100,21 @@ public class AuthController {
     }
 
     @PostMapping("/generateUsers")
-    public ResponseEntity<Student> generateUsers(@RequestParam String stName, Date stBirthday, Long clazzId, String prName, String prPhoneNo) {
+    public ResponseEntity<Student> generateUsers(@RequestParam String stName, Date stBirthday, Long clazzId, String prName, String prPhoneNo, MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        try {
+            FileCopyUtils.copy(file.getBytes(),
+                    new File("C:\\Users\\84336\\IdeaProjects\\CASE_MODULE_4\\src\\main\\resources\\templates\\avatar\\" + fileName));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         String[] stNameArray = stName.toLowerCase().split("");
         String stUserName = "";
         for (int i = 0; i < stNameArray.length; i++) {
             if (!stNameArray[i].equals(" ")) {
                 stUserName += stNameArray[i];
             }
-            System.out.println("username"+ stUserName);
+            System.out.println("username" + stUserName);
         }
         User prUser;
         Parent parent;
@@ -129,6 +139,7 @@ public class AuthController {
         rolesSt.add(role);
         User stUser = new User(stUserName, passwordEncoder.encode("123"), stName, rolesSt, "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png", Provider.LOCAL, true);
         Clazz clazz;
+        stUser.setAvatar("avatar\\" + fileName);
         if (clazzService.findById(clazzId).isPresent()) {
             clazz = clazzService.findById(clazzId).get();
         } else {
@@ -142,13 +153,13 @@ public class AuthController {
     }
 
     @PostMapping("/generateTeacherUser")
-    public ResponseEntity<Teacher> generateTeacherUsers(@RequestParam String name, String phone){
+    public ResponseEntity<Teacher> generateTeacherUsers(@RequestParam String name, String phone) {
         Role role = roleService.findByName("ROLE_TEACHER");
         Set<Role> roles = new HashSet<>();
         roles.add(role);
-        User user = new User(phone,passwordEncoder.encode("123"),name,roles,"https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png",Provider.LOCAL,true);
-        Teacher teacher = new Teacher(user,true);
-        System.out.println(name +"abc"+ phone);
+        User user = new User(phone, passwordEncoder.encode("123"), name, roles, "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png", Provider.LOCAL, true);
+        Teacher teacher = new Teacher(user, true);
+        System.out.println(name + "abc" + phone);
         System.out.println(teacher);
         System.out.println(user);
         teacherService.save(teacher);
@@ -157,7 +168,7 @@ public class AuthController {
     }
 
     @PutMapping("/updatePw/{id}")
-    public ResponseEntity<User> updatePw(@PathVariable Long id, @RequestParam String newPw){
+    public ResponseEntity<User> updatePw(@PathVariable Long id, @RequestParam String newPw) {
 
         User user = userService.findById(id).get();
         user.setPassword(passwordEncoder.encode(newPw));
@@ -165,6 +176,20 @@ public class AuthController {
 
     }
 
+    @PutMapping("/updateAva/{id}")
+    public ResponseEntity<User> updateAva(@PathVariable Long id, MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        try {
+            FileCopyUtils.copy(file.getBytes(),
+                    new File("C:\\Users\\84336\\IdeaProjects\\CASE_MODULE_4\\src\\main\\resources\\templates\\avatar\\" + fileName));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        User user = userService.findById(id).get();
+        user.setAvatar("avatar\\" + fileName);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+
+    }
 
 
 }

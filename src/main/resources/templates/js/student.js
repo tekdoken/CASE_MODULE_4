@@ -65,6 +65,12 @@ function showFormAddStudent() {
                 '                                            <input type="text" class="form-control" name="prPhoneNo">\n' +
                 '                                        </div>\n' +
                 '                                    </div>\n' +
+                '                                    <div class="col-12 col-sm-6">\n' +
+                '                                        <div class="form-group">\n' +
+                '                                            <label>Avatar</label>\n' +
+                '                                          <input type="file" name="file" />\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
 
                 '                                    <div class="col-12">\n' +
                 '                                        <button type="button"  class="btn btn-primary" onclick="addStAndPr()">Add student</button>\n' +

@@ -41,7 +41,7 @@ function showMyAccount() {
                         <div class="about-info">
                             <h4>My Information</h4>
                             <div class="media mt-3 d-flex">
-                                <img src="${avatar}" class="me-3 flex-shrink-0" alt="...">
+                                <img onclick="showUpdateAvatarForm(${id})" src="${avatar}" class="me-3 flex-shrink-0" alt="...">
                                 <div class="media-body flex-grow-1">
                                     <ul>
                                        
@@ -89,7 +89,54 @@ function showMyAccount() {
 
 
 }
+function showUpdateAvatarForm(id){
+    let str = `<div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">My Account</h3>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="about-info">
+                            <h4>Update avatar</h4>
+                            <div class="media mt-3 d-flex">
+                               <form enctype="multipart/form-data" id="form">
+                                <div class="media-body flex-grow-1">
+                                    <ul>
+                                
+                                     
+                                        <li>
+                                            <span >New Avatar  </span>
+                                            
+                                        </li>
+                                        
+                                        <li>
+                                        <input type="file"  name="file" id="newAva">
+</li>
+<li id="message" style="color: red"></li>
+                                      
+                                    </ul>
+                                    <button type="button" onclick="updateAvatar(${id})" class="btn btn-sm bg-danger-light">
+                             Update Avatar
+                        </button>   
+                                </div>
+                                </form>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+`
+    document.getElementById("contentArea").innerHTML = str
 
+
+}
 function showChangePasswordForm(id) {
     let str = `<div class="page-header">
             <div class="row">
@@ -147,10 +194,30 @@ function showChangePasswordForm(id) {
 
 }
 
-function showUpdateAvatarForm(id) {
+function updateAvatar(id){
+    let form = document.getElementById("form")
+    let data = new FormData(form)
+    console.log(data);
+    $.ajax({
+        type: 'PUT',
+        enctype: 'multipart/form-data',
+        url: 'http://localhost:8080/api/auth/updateAva/' +id,
+        data: data,
 
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 1000000,
+        success: function (user) {
+
+            showMyAccount(user.id);
+        },
+
+        error: function (error) {
+            console.log(error)
+        }
+    })
 }
-
 function updatePassword(id) {
     let pw = $('#pw')
     let newPw = $('#newPw').val()
