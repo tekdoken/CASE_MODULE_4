@@ -467,3 +467,16 @@ function inactivateStudent(id) {
 
     })
 }
+
+function search() {
+    let q = document.getElementById('q').value;
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:8080/api/students/search?q=${q}`,
+
+        success: function (data) {
+            console.log(data);
+            showStudents("Students with name "+ q, data)
+        }
+    })
+}

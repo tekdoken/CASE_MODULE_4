@@ -118,4 +118,9 @@ public class UserService implements IUserService {
         }
     }
 
+    @Override
+    public Iterable<User> findAllByFullNameContaining(String fullName) {
+        return userRepository.findAllByFullNameContaining(fullName);
+    }
+
 }

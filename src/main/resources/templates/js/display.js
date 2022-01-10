@@ -3,6 +3,7 @@ function showUserHomePage(){
     console.log(currentUser)
     let role = currentUser.roles[0].authority
     let avatar = currentUser.avatar
+    let name = currentUser.name
     console.log(role);
     let str
     if(role == "ROLE_ADMIN"){
@@ -25,8 +26,8 @@ function showUserHomePage(){
 
         <div class="top-nav-search">
             <form>
-                <input type="text" class="form-control" placeholder="Search here">
-                <button class="btn" type="submit"><i class="bi bi-search"></i></button>
+                <input type="text" id ="q" class="form-control" placeholder="Search here" oninput="search()">
+                <button class="btn" type="submit" onclick="search()"><i class="bi bi-search"></i></button>
             </form>
         </div>
 
@@ -38,62 +39,27 @@ function showUserHomePage(){
 
         <ul class="nav user-menu">
 
-            <li class="nav-item dropdown noti-dropdown">
-                <a href="https://preschool.dreamguystech.com/html-template/template/add-student.html#"
-                   class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                    <i class="far fa-bell"></i> <span class="badge badge-pill">3</span>
-                </a>
-                <div class="dropdown-menu notifications">
-                    <div class="topnav-dropdown-header">
-                        <span class="notification-title">Notifications</span>
-                        <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-                    </div>
-                    <div class="noti-content">
-                        <ul class="notification-list">
-                            <li class="notification-message">
-                                <a href="https://preschool.dreamguystech.com/html-template/template/add-student.html#">
-                                    <div class="media d-flex">
-<span class="avatar avatar-sm flex-shrink-0">
-<img class="avatar-img rounded-circle" alt="User Image" src="${avatar}">
-</span>
-                                        <div class="media-body flex-grow-1">
-                                            <p class="noti-details"><span class="noti-title">John Hendry</span> sent a
-                                                cancellation request <span class="noti-title">Apple iPhone XR</span></p>
-                                            <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topnav-dropdown-footer">
-                        <a href="https://preschool.dreamguystech.com/html-template/template/add-student.html#">View all
-                            Notifications</a>
-                    </div>
-                </div>
-            </li>
 
 
             <li class="nav-item dropdown has-arrow">
-                <a href="https://preschool.dreamguystech.com/html-template/template/add-student.html#"
+                <a 
                    class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                    <span class="user-img"><img class="rounded-circle" src="#" width="31"
-                                                alt="Ryan Taylor"></span>
+                    <span class="user-img"><img class="rounded-circle" src="${avatar}" width="31"
+                                                alt="${name}"></span>
                 </a>
                 <div class="dropdown-menu">
                     <div class="user-header">
                         <div class="avatar avatar-sm">
-                            <img src="#" alt="User Image" class="avatar-img rounded-circle">
+                            <img src="${avatar}" alt="User Image" class="avatar-img rounded-circle">
                         </div>
                         <div class="user-text">
-                            <h6>Ryan Taylor</h6>
+                            <h6>${name}</h6>
                             <p class="text-muted mb-0">Administrator</p>
                         </div>
                     </div>
                     <a class="dropdown-item"
-                       href="https://preschool.dreamguystech.com/html-template/template/profile.html">My Profile</a>
-                    <a class="dropdown-item"
-                       href="https://preschool.dreamguystech.com/html-template/template/inbox.html">Inbox</a>
+                       onclick="showMyAccount()">My Profile</a>
+                    
                     <a class="dropdown-item"
                        onclick="logOut()">Logout</a>
                 </div>
@@ -112,11 +78,7 @@ function showUserHomePage(){
                         <li class="menu-title">
                             <span></span>
                         </li>
-                        <li class="submenu">
-                            <a class="subdrop" onclick="showMyAccount()"><i class="fas fa-users"></i></i> <span> My Account</span><span class="menu-arrow"><i
-                                    class="bi bi-chevron-right"></i></span> </a>
-                            
-                        </li>
+                        
                         <li class="submenu">
                             <a class="active subdrop"><i class="fas fa-user-graduate"></i> <span> Students</span>
                                 <span class="menu-arrow"><i class="bi bi-chevron-right"></i></span></a>
@@ -200,6 +162,20 @@ function showUserHomePage(){
 }
 
 function showHomePage(){
+    // let str = JSON.stringify({
+    //     id: 13,
+    //     username: "admin",
+    //     name: "TRINH LAN HUONG",
+    //     avatar: "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png",
+    //     roles: [
+    //         {
+    //             "authority": "ROLE_ADMIN"
+    //         }
+    //     ],
+    //     accessToken: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY0MTc4NDkwMiwiZXhwIjo4ODA0MTc4NDkwMn0.WU3sxr1W3KKQj6NlNsTz_ZBWbdu26svL6A5fRegxJ4zzcxsbmRaJdcfoqJnozB1ZZISyuSEakaKEGDoMjGnt3w",
+    //     tokenType: "Bearer"
+    // })
+    // localStorage.setItem("user",str)
 
     let user = localStorage.getItem("user")
     if(user == null){

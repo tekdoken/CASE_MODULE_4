@@ -3,6 +3,7 @@ package com.example.case_module_4.service.impl;
 import com.example.case_module_4.model.Clazz;
 import com.example.case_module_4.model.Parent;
 import com.example.case_module_4.model.Student;
+import com.example.case_module_4.model.User;
 import com.example.case_module_4.repository.ClazzRepository;
 import com.example.case_module_4.repository.StudentRepository;
 import com.example.case_module_4.service.IStudentService;
@@ -58,5 +59,10 @@ public class StudentService implements IStudentService {
     public Iterable<Student> findAllByClazzId(Long id) {
         Clazz clazz = clazzRepository.findById(id).get();
         return studentRepository.findAllByClazzOrderByActive(clazz);
+    }
+
+    @Override
+    public Optional<Student> findByUser(User user) {
+        return studentRepository.findByUser(user);
     }
 }
