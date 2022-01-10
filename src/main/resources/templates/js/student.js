@@ -430,7 +430,7 @@ function showStudents(listName, studentList) {
                             <i class="fas fa-pen"></i> Edit
                         </a>
                         <a onclick="activateStudent(${stId})" class="btn btn-sm bg-danger-light">
-                            <i class="fas fa-trash"></i> Activate
+                             Activate
                         </a>
                     </div>
                 </td>
