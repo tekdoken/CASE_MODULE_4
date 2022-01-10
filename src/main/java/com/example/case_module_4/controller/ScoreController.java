@@ -40,4 +40,12 @@ public class ScoreController {
         }
         return new ResponseEntity<>(scores,HttpStatus.OK);
     }
+
+    @PostMapping("")
+    public ResponseEntity<Iterable<Score>> add(@RequestBody Iterable<Score> scores) {
+        for(Score score: scores){
+            iScoreService.save(score);
+        }
+        return new ResponseEntity<>(scores, HttpStatus.OK);
+    }
 }

@@ -156,6 +156,15 @@ public class AuthController {
         return new ResponseEntity<>(teacher, HttpStatus.CREATED);
     }
 
+    @PutMapping("/updatePw/{id}")
+    public ResponseEntity<User> updatePw(@PathVariable Long id, @RequestParam String newPw){
+
+        User user = userService.findById(id).get();
+        user.setPassword(passwordEncoder.encode(newPw));
+        return new ResponseEntity<>(user, HttpStatus.OK);
+
+    }
+
 
 
 }

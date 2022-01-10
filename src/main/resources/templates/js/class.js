@@ -7,7 +7,7 @@ function showClasses(classes) {
         <div class="col">
             <h3 class="page-title">Classes</h3>
             <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item"><a >Dashboard</a></li>
                 <li class="breadcrumb-item active">Classes</li>
             </ul>
         </div>
@@ -83,6 +83,9 @@ function showClasses(classes) {
                                     </a>
                                     <a onclick="showStudentsByClass(${id})" class="btn btn-sm bg-danger-light">
                                         Student List
+                                    </a>
+                                    <a onclick="showFormAddScore(${id})" class="btn btn-sm bg-danger-light">
+                                        Add Test Result
                                     </a>
                                     </div>
                             </td>

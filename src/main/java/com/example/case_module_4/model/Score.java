@@ -37,6 +37,20 @@ public class Score {
     public Score() {
     }
 
+    public Score(String name, Double score, Student student) {
+        this.name = name;
+        this.score = score;
+        this.student = student;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
     public Long getId() {
         return id;
     }
