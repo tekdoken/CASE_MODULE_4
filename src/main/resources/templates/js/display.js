@@ -2,6 +2,7 @@ function showUserHomePage(){
     let currentUser = JSON.parse( localStorage.getItem("user"))
     console.log(currentUser)
     let role = currentUser.roles[0].authority
+    let avatar = currentUser.avatar
     console.log(role);
     let str
     if(role == "ROLE_ADMIN"){
@@ -53,7 +54,7 @@ function showUserHomePage(){
                                 <a href="https://preschool.dreamguystech.com/html-template/template/add-student.html#">
                                     <div class="media d-flex">
 <span class="avatar avatar-sm flex-shrink-0">
-<img class="avatar-img rounded-circle" alt="User Image" src="#">
+<img class="avatar-img rounded-circle" alt="User Image" src="${avatar}">
 </span>
                                         <div class="media-body flex-grow-1">
                                             <p class="noti-details"><span class="noti-title">John Hendry</span> sent a
