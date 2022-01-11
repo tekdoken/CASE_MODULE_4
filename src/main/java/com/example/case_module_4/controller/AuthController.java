@@ -187,8 +187,7 @@ public class AuthController {
         }
         User user = userService.findById(id).get();
         user.setAvatar("avatar\\" + fileName);
-        userService.save(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(        userService.save(user), HttpStatus.OK);
 
     }
 
