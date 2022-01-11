@@ -42,13 +42,13 @@ function showUserHomePage(){
             <li class="nav-item dropdown has-arrow">
                 <a 
                    class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                    <span class="user-img"><img class="rounded-circle" src="avatar\\${avatar}" width="31"
+                    <span class="user-img"><img class="rounded-circle" src="${avatar}" width="31"
                                                 alt="${name}"></span>
                 </a>
                 <div class="dropdown-menu">
                     <div class="user-header">
                         <div class="avatar avatar-sm">
-                            <img src="avatar\\${avatar}" alt="User Image" class="avatar-img rounded-circle">
+                            <img src="${avatar}" alt="User Image" class="avatar-img rounded-circle">
                         </div>
                         <div class="user-text">
                             <h6>${name}</h6>
